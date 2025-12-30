@@ -568,5 +568,70 @@ public class ResourceManager : MonoBehaviour
     {
         return playerIdentity;
     }
+    
+    /// <summary>
+    /// 获取可用存储空间
+    /// </summary>
+    public float GetStorageAvailable()
+    {
+        return playerResources.StorageAvailable;
+    }
+    
+    /// <summary>
+    /// 获取可用网速
+    /// </summary>
+    public float GetBandwidthAvailable()
+    {
+        return playerResources.BandwidthAvailable;
+    }
+    
+    /// <summary>
+    /// 获取可用算力
+    /// </summary>
+    public float GetComputingAvailable()
+    {
+        return playerResources.ComputingAvailable;
+    }
+    
+    /// <summary>
+    /// 添加存储使用量
+    /// 例如：购买技能占用存储空间
+    /// </summary>
+    /// <param name="amount">增加的存储使用量（GB）</param>
+    public void AddStorageUsed(float amount)
+    {
+        playerResources.storageUsed += amount;
+        
+        // 检查是否超过限制
+        if (playerResources.storageUsed >= playerResources.storageTotal * 0.9f)
+        {
+            Debug.LogWarning($"<color=yellow>⚠ 存储空间不足！已使用{playerResources.StorageUsagePercent:F0}%</color>");
+            OnStorageWarning?.Invoke(playerResources.StorageUsagePercent);
+        }
+        
+        // 触发事件
+        OnResourcesChanged?.Invoke(playerResources);
+    }
+    
+    /// <summary>
+    /// 添加或减少数据产生速率
+    /// 例如：开始工作会增加，辞职会减少
+    /// </summary>
+    /// <param name="amount">速率变化量（可以是负数）</param>
+    public void AddDataGenerationRate(float amount)
+    {
+        playerResources.dataGenerationRate += amount;
+        
+        // 确保不为负数
+        if (playerResources.dataGenerationRate < 0)
+        {
+            playerResources.dataGenerationRate = 0;
+        }
+        
+        Debug.Log($"数据产生速率更新：{playerResources.dataGenerationRate:F2} GB/5分钟");
+        
+        // 触发事件
+        OnResourcesChanged?.Invoke(playerResources);
+    }
     #endregion
 }
