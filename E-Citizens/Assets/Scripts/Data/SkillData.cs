@@ -212,6 +212,55 @@ public class SkillData
     }
     
     /// <summary>
+    /// 计算基于算力分配的掌握度
+    /// 根据分配的算力计算技能掌握度（20% - 200%）
+    /// </summary>
+    /// <param name="allocatedComputing">分配的算力</param>
+    /// <returns>计算出的掌握度百分比</returns>
+    public float CalculateMastery(float allocatedComputing)
+    {
+        return CalculateMasteryFromComputing(allocatedComputing, maxComputingFor100Percent, maxComputingFor200Percent);
+    }
+    
+    /// <summary>
+    /// 计算掌握度的通用方法（静态）
+    /// 根据分配的算力和技能配置计算掌握度
+    /// </summary>
+    /// <param name="allocatedComputing">分配的算力</param>
+    /// <param name="maxFor100">达到100%掌握度所需的算力</param>
+    /// <param name="maxFor200">达到200%掌握度所需的算力</param>
+    /// <returns>计算出的掌握度百分比（20%-200%）</returns>
+    public static float CalculateMasteryFromComputing(float allocatedComputing, float maxFor100, float maxFor200)
+    {
+        // 基础掌握度20%
+        float baseMastery = 20f;
+        
+        // 根据分配的算力计算额外掌握度
+        float additionalMastery = 0f;
+        
+        if (allocatedComputing > 0)
+        {
+            if (allocatedComputing <= maxFor100)
+            {
+                // 未达到100%：20% + (算力 / 100%所需) × 80%
+                additionalMastery = (allocatedComputing / maxFor100) * 80f;
+            }
+            else
+            {
+                // 超过100%：100% + (超出算力 / 额外所需) × 100%
+                float excessComputing = allocatedComputing - maxFor100;
+                float maxExcessComputing = maxFor200 - maxFor100;
+                
+                additionalMastery = 80f; // 先加上80%达到100%
+                additionalMastery += Mathf.Min(100f, (excessComputing / maxExcessComputing) * 100f);
+            }
+        }
+        
+        // 最终掌握度 = 基础 + 额外，限制在20%-200%之间
+        return Mathf.Clamp(baseMastery + additionalMastery, 20f, 200f);
+    }
+    
+    /// <summary>
     /// 获取技能的详细信息字符串
     /// 用于调试和显示
     /// </summary>
@@ -284,31 +333,11 @@ public class PlayerSkillInstance
             return;
         }
         
-        // 基础掌握度20%
-        float baseMastery = 20f;
-        
-        // 根据分配的算力计算额外掌握度
-        float additionalMastery = 0f;
-        
-        if (allocatedComputing > 0)
-        {
-            if (allocatedComputing <= skillData.maxComputingFor100Percent)
-            {
-                // 未达到100%：20% + (算力 / 100%所需) × 80%
-                additionalMastery = (allocatedComputing / skillData.maxComputingFor100Percent) * 80f;
-            }
-            else
-            {
-                // 超过100%：100% + (超出算力 / 额外所需) × 100%
-                float excessComputing = allocatedComputing - skillData.maxComputingFor100Percent;
-                float maxExcessComputing = skillData.maxComputingFor200Percent - skillData.maxComputingFor100Percent;
-                
-                additionalMastery = 80f; // 先加上80%达到100%
-                additionalMastery += Mathf.Min(100f, (excessComputing / maxExcessComputing) * 100f);
-            }
-        }
-        
-        // 最终掌握度 = 基础 + 额外，限制在20%-200%之间
-        masteryPercent = Mathf.Clamp(baseMastery + additionalMastery, 20f, 200f);
+        // 使用SkillData的静态方法计算掌握度
+        masteryPercent = SkillData.CalculateMasteryFromComputing(
+            allocatedComputing, 
+            skillData.maxComputingFor100Percent, 
+            skillData.maxComputingFor200Percent
+        );
     }
 }
