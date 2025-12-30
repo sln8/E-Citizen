@@ -118,7 +118,7 @@ public class SkillManager : MonoBehaviour
         Debug.Log("=== 初始化技能系统 ===");
         
         // 加载技能数据
-        LoadSkillData();
+        LoadSkillDatas();
         
         Debug.Log($"技能系统初始化完成。共有 {allSkills.Count} 个技能");
     }
@@ -127,7 +127,7 @@ public class SkillManager : MonoBehaviour
     /// 加载技能数据
     /// 这里先创建一些示例技能，后续可以从配置文件或数据库加载
     /// </summary>
-    private void LoadSkillData()
+    private void LoadSkillDatas()
     {
         // 清空现有数据
         allSkills.Clear();

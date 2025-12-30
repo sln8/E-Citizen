@@ -111,7 +111,7 @@ public class JobManager : MonoBehaviour
         unlockedJobSlots = 1; // 初始1个工作位
         
         // 加载工作数据
-        LoadJobData();
+        LoadJobDatas();
         
         // 监听游戏周期事件（用于薪资结算）
         if (GameTimerManager.Instance != null)
@@ -126,7 +126,7 @@ public class JobManager : MonoBehaviour
     /// 加载工作数据
     /// 这里先创建一些示例工作，后续可以从配置文件或数据库加载
     /// </summary>
-    private void LoadJobData()
+    private void LoadJobDatas()
     {
         // 清空现有数据
         allJobs.Clear();
@@ -398,11 +398,11 @@ public class JobManager : MonoBehaviour
         
         // 1. 查找工作实例
         PlayerJobInstance jobInstance = null;
-        foreach (PlayerJobInstance job in activeJobs)
+        foreach (PlayerJobInstance jobs in activeJobs)
         {
-            if (job.slotId == slotId)
+            if (jobs.slotId == slotId)
             {
-                jobInstance = job;
+                jobInstance = jobs;
                 break;
             }
         }

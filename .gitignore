@@ -11,7 +11,9 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 *.log
-
+Assets/Firebase/*
+Assets/ExternalDependencyManager/*
+Assets/Editor Default Resources/*
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1
 *.blend1.meta
@@ -54,6 +56,29 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+*.dll
+*.dll.meta
+*.png
+*.png.meta
+*.xml
+*.xml.meta
+*.txt.meta
+*.txt
+*.pom
+*.pom.meta
+*.srcaar
+*.srcaar.meta
+*.py
+*.py.meta
+*.exe
+*.exe.meta
+*.a
+*.a.meta
+*.so
+*.so.meta
+*.bundle
+*.bundle.meta
+*.13.6.0.meta
 
 # Unity3D generated meta files
 *.pidb.meta
