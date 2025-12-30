@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "638815899544",
+    "project_id": "ecitizen-18751",
+    "storage_bucket": "ecitizen-18751.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638815899544:android:f9d4157ce23a0e671825ed",
+        "android_client_info": {
+          "package_name": "com.wanxuebao.Ecitizens"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638815899544-hailselnd0qgk76qtntc2a0sa9ae5e2q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wanxuebao.Ecitizens",
+            "certificate_hash": "b63e54997fc1dcf42958412a734e7b0c5507dd8d"
+          }
+        },
+        {
+          "client_id": "638815899544-mdguho7qu0ofk7r2cr25eqjbq0t1v1as.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh0sBxoMLZX9FmC9E7OmAX6U1dI_wcVBc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638815899544-mdguho7qu0ofk7r2cr25eqjbq0t1v1as.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "638815899544-tr9rl3oqvmuvvg2neo8cpvh2d3qfa0ck.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wanxuebao.Ecitizens"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
