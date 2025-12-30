@@ -51,7 +51,7 @@
 
 ## 📦 当前项目状态
 
-### ✅ Phase 1: 已完成（当前版本）
+### ✅ Phase 1: 已完成
 **Unity项目搭建 + Firebase集成 + 登录系统**
 
 #### 核心功能
@@ -63,6 +63,26 @@
 - ✅ 模拟模式（无需Firebase即可测试）
 - ✅ 调试工具
 
+#### 文档
+- ✅ 详细配置指南（SETUP_GUIDE.md）
+- ✅ Phase 1开发文档（PHASE1_README.md）
+- ✅ 快速开始指南（QUICKSTART.md）
+
+---
+
+### ✅ Phase 2: 已完成（最新）
+**核心资源系统 + 5分钟定时器 + 效率计算**
+
+#### 核心功能
+- ✅ 资源数据类（5大硬件资源 + 软属性）
+- ✅ 资源管理器（分配、释放、升级）
+- ✅ 效率计算系统（完全按照游戏设计文档）
+- ✅ 5分钟定时器系统（支持调试模式）
+- ✅ 数据产生机制（每周期自动产生）
+- ✅ 身份系统（意识连接者 vs 完全虚拟人）
+- ✅ 9个结算步骤框架
+- ✅ 详细的Unity操作指南
+
 #### 核心脚本（含详细中文注释）
 ```
 Scripts/
@@ -72,21 +92,31 @@ Scripts/
 ├── Authentication/
 │   └── AuthenticationManager.cs   # 登录系统管理
 ├── Data/
-│   └── UserData.cs                # 用户数据模型
+│   ├── UserData.cs                # 用户数据模型
+│   └── PlayerResources.cs         # 玩家资源数据（新）
 ├── UI/
 │   └── LoginUIManager.cs          # 登录UI管理
 └── Managers/
-    └── GameManager.cs             # 主游戏管理器
+    ├── GameManager.cs             # 主游戏管理器
+    ├── ResourceManager.cs         # 资源管理器（新）
+    └── GameTimerManager.cs        # 游戏定时器（新）
 ```
 
 #### 文档
-- ✅ 详细配置指南（SETUP_GUIDE.md）
-- ✅ Phase 1开发文档（PHASE1_README.md）
-- ✅ 快速开始指南（QUICKSTART.md）
+- ✅ Phase 2操作指南（PHASE2_SETUP_GUIDE.md）
+- ✅ Phase 2开发总结（PHASE2_SUMMARY.md）
+- ✅ 包含完整的测试UI代码
+
+#### 特色功能
+- **两种身份类型**：意识连接者（需支付连接费） vs 完全虚拟人（无需费用）
+- **效率计算公式**：基于空闲资源、心情值和等级的动态计算
+- **调试模式**：30秒周期 + 时间缩放，便于快速测试
+- **事件驱动**：其他系统可以监听资源和周期事件
+- **数据持久化**：支持保存/加载资源数据
 
 ---
 
-### 🔄 Phase 2-6: 计划中
+### 🔄 Phase 3-9: 计划中
 
 #### Phase 2: 核心资源系统（预计3-4周）
 - [ ] 资源管理器（内存、CPU、网速、算力、存储）
@@ -298,15 +328,24 @@ Assets/
 ## 🚀 如何开始开发
 
 ### 对于零基础开发者
-1. **第一步**: 阅读 [QUICKSTART.md](QUICKSTART.md)（5分钟快速体验）
-2. **第二步**: 阅读 [PHASE1_README.md](PHASE1_README.md)（理解项目结构）
-3. **第三步**: 按照指南在Unity中运行项目
-4. **第四步**: 阅读代码中的详细注释，理解实现原理
-5. **第五步**: 按照 [SETUP_GUIDE.md](SETUP_GUIDE.md) 配置Firebase
+
+#### 第一次运行项目
+1. **快速体验**: 阅读 [QUICKSTART.md](QUICKSTART.md)（5分钟）
+2. **理解项目**: 阅读 [PHASE1_README.md](PHASE1_README.md)
+3. **配置Firebase**: 按照 [SETUP_GUIDE.md](SETUP_GUIDE.md) 配置
+
+#### 继续开发（Phase 2）
+1. **阅读总结**: [PHASE2_SUMMARY.md](PHASE2_SUMMARY.md)（了解新功能）
+2. **跟随教程**: [PHASE2_SETUP_GUIDE.md](PHASE2_SETUP_GUIDE.md)（详细操作步骤）
+3. **创建测试场景**: 按照指南创建资源系统测试场景
+4. **理解代码**: 阅读脚本中的详细中文注释
 
 ### 对于有经验的开发者
-1. 查看项目结构和核心脚本
-2. 了解设计模式（单例、事件驱动）
+1. 查看 [PHASE2_SUMMARY.md](PHASE2_SUMMARY.md) 了解新功能
+2. 直接查看核心脚本：
+   - `ResourceManager.cs` - 资源管理核心
+   - `GameTimerManager.cs` - 5分钟周期系统
+   - `PlayerResources.cs` - 资源数据模型
 3. 查看 [游戏设计.cs](E-Citizens/Assets/游戏设计.cs) 了解完整设计
 4. 根据Phase计划开始开发后续功能
 
@@ -330,7 +369,30 @@ Assets/
 
 ## 📝 更新日志
 
-### v0.1.0 - Phase 1 (当前版本)
+### v0.2.0 - Phase 2 (最新版本)
+**发布日期**: 2025-12-30
+
+**新增内容**:
+- ✅ 核心资源系统（5大硬件资源 + 软属性）
+- ✅ 资源管理器（分配、释放、升级、效率计算）
+- ✅ 5分钟定时器系统（支持调试模式和时间缩放）
+- ✅ 数据产生机制（每周期自动产生）
+- ✅ 身份系统（意识连接者 vs 完全虚拟人）
+- ✅ 9个结算步骤框架（为后续系统预留接口）
+- ✅ 事件驱动架构（资源变化、周期事件等）
+- ✅ 完整的Unity操作指南（PHASE2_SETUP_GUIDE.md）
+- ✅ Phase 2开发总结（PHASE2_SUMMARY.md）
+- ✅ 包含完整的测试UI脚本代码
+
+**技术亮点**:
+- 按照游戏设计文档实现效率计算公式
+- 单例模式 + 事件驱动设计
+- 所有代码都包含详细的中文注释（350+行/文件）
+- 调试模式支持快速测试（30秒周期 + 时间缩放）
+
+---
+
+### v0.1.0 - Phase 1
 **发布日期**: 2025-12-29
 
 **新增内容**:
