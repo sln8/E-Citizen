@@ -52,22 +52,30 @@ public class UserData
     #region 游戏数据（后续扩展）
     /// <summary>
     /// 玩家等级
+    /// 注意：Phase 2之后，等级数据由PlayerResources管理
+    /// 保留此字段用于兼容性和数据同步
     /// </summary>
     public int level = 1;
     
     /// <summary>
     /// 虚拟币数量
+    /// 注意：Phase 2之后，虚拟币由PlayerResources管理
+    /// 保留此字段用于兼容性和数据同步
     /// </summary>
     public int virtualCoin = 100;
     
     /// <summary>
     /// 心情值
+    /// 注意：Phase 2之后，心情值由PlayerResources管理
+    /// 保留此字段用于兼容性和数据同步
     /// </summary>
     public int moodValue = 10;
     
     /// <summary>
     /// 身份类型
-    /// 0 = 意识连接者, 1 = 完全虚拟人
+    /// 0 = 意识连接者 (Consciousness Linker)
+    /// 1 = 完全虚拟人 (Full Virtual)
+    /// 在Phase 2中使用IdentityType枚举
     /// </summary>
     public int identityType = 0;
     
@@ -80,6 +88,12 @@ public class UserData
     /// VIP到期时间
     /// </summary>
     public string vipExpireTime = "";
+    
+    /// <summary>
+    /// 是否已完成角色创建
+    /// 如果为false，登录后需要进入角色创建流程
+    /// </summary>
+    public bool hasCreatedCharacter = false;
     #endregion
 
     #region 构造函数
