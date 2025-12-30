@@ -348,8 +348,28 @@ public class JobManager : MonoBehaviour
             return false;
         }
         
-        // 4. 检查技能要求（暂时跳过，等SkillManager实现后再检查）
-        // TODO: 检查玩家是否拥有所需技能
+        // 4. 检查技能要求
+        if (job.requiredSkillIds != null && job.requiredSkillIds.Length > 0)
+        {
+            // 检查玩家是否拥有所有必需技能
+            List<string> missingSkills = new List<string>();
+            foreach (string skillId in job.requiredSkillIds)
+            {
+                if (!SkillManager.Instance.HasSkill(skillId))
+                {
+                    // 获取技能名称用于提示
+                    SkillData skillData = SkillManager.Instance.GetSkillById(skillId);
+                    string skillName = skillData != null ? skillData.skillName : skillId;
+                    missingSkills.Add(skillName);
+                }
+            }
+            
+            if (missingSkills.Count > 0)
+            {
+                errorMessage = $"缺少必需技能：{string.Join(", ", missingSkills)}";
+                return false;
+            }
+        }
         
         // 5. 检查资源是否足够
         bool resourceAvailable = ResourceManager.Instance.TryAllocateResources(
