@@ -594,6 +594,14 @@ public class ResourceManager : MonoBehaviour
     }
     
     /// <summary>
+    /// 获取总算力
+    /// </summary>
+    public float GetComputingTotal()
+    {
+        return playerResources.computingTotal;
+    }
+    
+    /// <summary>
     /// 添加存储使用量
     /// 例如：购买技能占用存储空间
     /// </summary>
