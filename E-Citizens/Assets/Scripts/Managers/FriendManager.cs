@@ -83,12 +83,6 @@ public class FriendManager : MonoBehaviour
     private int maxFriends = 100;
     
     /// <summary>
-    /// 最大待处理请求数量
-    /// </summary>
-    [SerializeField]
-    private int maxPendingRequests = 50;
-    
-    /// <summary>
     /// 是否启用调试模式
     /// </summary>
     [SerializeField]
@@ -201,7 +195,7 @@ public class FriendManager : MonoBehaviour
     public bool SendFriendRequest(string targetUserId, string message = "")
     {
         // 验证：不能向自己发送请求
-        if (targetUserId == UserData.Instance.userId)
+        if (targetUserId == AuthenticationManager.Instance.currentUser.userId)
         {
             Debug.LogWarning("[FriendManager] 不能向自己发送好友请求");
             return false;
@@ -223,9 +217,9 @@ public class FriendManager : MonoBehaviour
         
         // 创建好友请求
         FriendRequestData request = new FriendRequestData(
-            UserData.Instance.userId,
-            UserData.Instance.playerName,
-            UserData.Instance.level,
+            AuthenticationManager.Instance.currentUser.userId,
+            AuthenticationManager.Instance.currentUser.username,
+            AuthenticationManager.Instance.currentUser.level,
             targetUserId,
             message
         );
@@ -447,8 +441,8 @@ public class FriendManager : MonoBehaviour
         
         // 创建礼物交易记录
         GiftTransactionData transaction = new GiftTransactionData(
-            UserData.Instance.userId,
-            UserData.Instance.playerName,
+            AuthenticationManager.Instance.currentUser.userId,
+            AuthenticationManager.Instance.currentUser.username,
             friendUserId,
             friend.friendName,
             gift,
@@ -472,7 +466,7 @@ public class FriendManager : MonoBehaviour
     /// <param name="transaction">礼物交易数据</param>
     public void ReceiveGift(GiftTransactionData transaction)
     {
-        if (transaction.receiverUserId != UserData.Instance.userId)
+        if (transaction.receiverUserId != AuthenticationManager.Instance.currentUser.userId)
         {
             Debug.LogWarning("[FriendManager] 礼物接收者不是当前玩家");
             return;
@@ -515,13 +509,13 @@ public class FriendManager : MonoBehaviour
         if (sent)
         {
             return giftTransactions
-                .Where(t => t.senderUserId == UserData.Instance.userId)
+                .Where(t => t.senderUserId == AuthenticationManager.Instance.currentUser.userId)
                 .ToList();
         }
         else
         {
             return giftTransactions
-                .Where(t => t.receiverUserId == UserData.Instance.userId)
+                .Where(t => t.receiverUserId == AuthenticationManager.Instance.currentUser.userId)
                 .ToList();
         }
     }
@@ -622,7 +616,7 @@ public class FriendManager : MonoBehaviour
             $"test_{UnityEngine.Random.Range(100, 999)}",
             $"测试玩家{UnityEngine.Random.Range(1, 100)}",
             UnityEngine.Random.Range(1, 50),
-            UserData.Instance.userId,
+            AuthenticationManager.Instance.currentUser.userId,
             "你好，交个朋友吧！"
         );
         
@@ -645,8 +639,8 @@ public class FriendManager : MonoBehaviour
         GiftTransactionData transaction = new GiftTransactionData(
             randomFriend.friendUserId,
             randomFriend.friendName,
-            UserData.Instance.userId,
-            UserData.Instance.playerName,
+            AuthenticationManager.Instance.currentUser.userId,
+            AuthenticationManager.Instance.currentUser.username,
             randomGift,
             "送你个礼物！"
         );
