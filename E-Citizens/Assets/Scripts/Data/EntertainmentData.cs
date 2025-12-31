@@ -125,15 +125,23 @@ public class EntertainmentData
     /// <returns>实际需要的时间（秒）</returns>
     public float CalculateActualDuration(float speedBonus)
     {
-        // 防止除以0
+        // 防止除以0或负数
         if (speedBonus <= 0f)
         {
-            Debug.LogWarning($"[EntertainmentData] 无效的速度加成: {speedBonus}，使用默认值1.0");
-            speedBonus = 1.0f;
+            Debug.LogError($"[EntertainmentData] 无效的速度加成: {speedBonus}，必须大于0");
+            // 返回基础时间作为后备
+            return baseDuration;
         }
         
         // 实际时间 = 基础时间 / 速度加成
         float actualTime = baseDuration / speedBonus;
+        
+        // 确保返回值有效
+        if (actualTime <= 0f)
+        {
+            Debug.LogError($"[EntertainmentData] 计算出无效的持续时间: {actualTime}秒");
+            return baseDuration;
+        }
         
         return actualTime;
     }

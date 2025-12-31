@@ -363,8 +363,7 @@ public class Phase6TestUI : MonoBehaviour
         // 如果当前不在游戏中，先触发入侵
         if (VirusInvasionManager.Instance.GetCurrentState() != VirusGameState.Playing)
         {
-            TriggerVirus();
-            // 等待一帧让状态更新
+            Debug.LogWarning("[Phase6TestUI] 当前没有进行中的游戏，请先触发病毒入侵");
             return;
         }
         

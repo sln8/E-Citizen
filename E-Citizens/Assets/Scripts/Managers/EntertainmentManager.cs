@@ -327,6 +327,13 @@ public class EntertainmentManager : MonoBehaviour
         // 8. 计算实际持续时间
         float actualDuration = data.CalculateActualDuration(speedBonus);
         
+        // 验证持续时间
+        if (actualDuration <= 0f)
+        {
+            Debug.LogError($"[EntertainmentManager] 无效的娱乐持续时间: {actualDuration}秒");
+            return false;
+        }
+        
         // 9. 创建正在进行的娱乐活动
         currentEntertainment = new OngoingEntertainment
         {

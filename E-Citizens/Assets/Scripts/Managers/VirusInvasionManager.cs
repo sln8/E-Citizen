@@ -399,8 +399,15 @@ public class VirusInvasionManager : MonoBehaviour
         float lossPercentage = Random.Range(minLossPercentage, maxLossPercentage);
         int coinsLost = Mathf.RoundToInt(resources.virtualCoin * lossPercentage);
         
-        // 至少损失1币，但不超过当前虚拟币
-        coinsLost = Mathf.Clamp(coinsLost, 1, resources.virtualCoin);
+        // 至少损失1币（如果有币），但不超过当前虚拟币
+        if (resources.virtualCoin > 0)
+        {
+            coinsLost = Mathf.Clamp(coinsLost, 1, resources.virtualCoin);
+        }
+        else
+        {
+            coinsLost = 0; // 没有虚拟币，不扣费
+        }
         
         totalCoinsLost += coinsLost;
         
