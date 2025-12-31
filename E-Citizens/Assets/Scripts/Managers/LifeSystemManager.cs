@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using ECitizen.Data;
 
 /*
  * ========================================
@@ -41,10 +40,8 @@ using ECitizen.Data;
  * - 数据持久化支持
  */
 
-namespace ECitizen.Managers
+public class LifeSystemManager : MonoBehaviour
 {
-    public class LifeSystemManager : MonoBehaviour
-    {
         // ===== 单例 =====
         private static LifeSystemManager instance;
         public static LifeSystemManager Instance
@@ -363,7 +360,7 @@ namespace ECitizen.Managers
             ownedVehicles.Add(newVehicle);
 
             // 应用购买时的心情加成
-            ResourceManager.Instance.AddMood(vehicle.moodBonus, "购买汽车");
+            ResourceManager.Instance.ChangeMoodValue(Mathf.RoundToInt(vehicle.moodBonus), "购买汽车");
             totalMoodFromLife += vehicle.moodBonus;
 
             // 如果是第一辆车，自动设为当前使用
@@ -573,7 +570,7 @@ namespace ECitizen.Managers
 
             if (totalBonus > 0)
             {
-                ResourceManager.Instance.AddMood(totalBonus, "生活系统");
+                ResourceManager.Instance.ChangeMoodValue(Mathf.RoundToInt(totalBonus), "生活系统");
                 totalMoodFromLife += totalBonus;
                 Debug.Log($"[LifeSystemManager] 应用心情加成: +{totalBonus} " +
                          $"(房产+{currentHousing?.moodBonusPer5Min ?? 0}, " +

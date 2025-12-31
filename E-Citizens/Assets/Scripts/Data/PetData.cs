@@ -23,18 +23,16 @@ using UnityEngine;
  * var dragon = PetData.CreatePet("pet_dragon", "像素龙", 50000, 2.0f, "pixel_dragon.json", 2.99f);
  */
 
-namespace ECitizen.Data
+/// <summary>
+/// 宠物品级枚举
+/// </summary>
+public enum PetTier
 {
-    /// <summary>
-    /// 宠物品级枚举
-    /// </summary>
-    public enum PetTier
-    {
-        Common,   // 普通（数据犬、赛博猫）
-        Rare,     // 稀有
-        Epic,     // 史诗
-        Legendary // 传说（像素龙）
-    }
+    Common,   // 普通（数据犬、赛博猫）
+    Rare,     // 稀有
+    Epic,     // 史诗
+    Legendary // 传说（像素龙）
+}
 
     [Serializable]
     public class PetData

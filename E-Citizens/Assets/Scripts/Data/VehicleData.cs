@@ -23,17 +23,15 @@ using UnityEngine;
  * var quantum = VehicleData.CreateVehicle("car_luxury", "量子飞行器", 100000, 2.0f, 50, "quantum.png", 4.99f);
  */
 
-namespace ECitizen.Data
+/// <summary>
+/// 汽车品级枚举
+/// </summary>
+public enum VehicleTier
 {
-    /// <summary>
-    /// 汽车品级枚举
-    /// </summary>
-    public enum VehicleTier
-    {
-        Basic,    // 基础（数据滑板）
-        Sport,    // 运动（光速跑车）
-        Luxury    // 豪华（量子飞行器）
-    }
+    Basic,    // 基础（数据滑板）
+    Sport,    // 运动（光速跑车）
+    Luxury    // 豪华（量子飞行器）
+}
 
     [Serializable]
     public class VehicleData

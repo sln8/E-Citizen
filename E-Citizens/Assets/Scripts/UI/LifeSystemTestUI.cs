@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using ECitizen.Data;
-using ECitizen.Managers;
 using System.Collections.Generic;
 
 /*
@@ -31,10 +29,8 @@ using System.Collections.Generic;
  * 6. 点击"刷新显示"查看最新状态
  */
 
-namespace ECitizen.UI
+public class LifeSystemTestUI : MonoBehaviour
 {
-    public class LifeSystemTestUI : MonoBehaviour
-    {
         [Header("UI引用")]
         [SerializeField] private TextMeshProUGUI statusText;
 
@@ -266,7 +262,7 @@ namespace ECitizen.UI
             display += "【玩家信息】\n";
             display += $"等级: Lv.{ResourceManager.Instance.GetPlayerLevel()}\n";
             display += $"虚拟币: {ResourceManager.Instance.GetVirtualCoin():F0}\n";
-            display += $"心情值: {ResourceManager.Instance.GetMood():F1}\n\n";
+            display += $"心情值: {ResourceManager.Instance.GetMoodValue()}\n\n";
 
             // 当前房产
             var housing = LifeSystemManager.Instance.GetCurrentHousing();

@@ -20,27 +20,25 @@ using UnityEngine;
  * var villa = HousingData.CreatePurchaseHousing("buy_villa", "独栋别墅", 50000, 3, "villa.png", 15);
  */
 
-namespace ECitizen.Data
+/// <summary>
+/// 房产类型枚举
+/// </summary>
+public enum HousingType
 {
-    /// <summary>
-    /// 房产类型枚举
-    /// </summary>
-    public enum HousingType
-    {
-        Rental,    // 租赁
-        Purchase   // 购买
-    }
+    Rental,    // 租赁
+    Purchase   // 购买
+}
 
-    /// <summary>
-    /// 房产品级枚举
-    /// </summary>
-    public enum HousingTier
-    {
-        Basic,     // 基础（胶囊公寓）
-        Standard,  // 标准（普通公寓）
-        Luxury,    // 豪华（独栋别墅）
-        Premium    // 顶级（数据豪宅）
-    }
+/// <summary>
+/// 房产品级枚举
+/// </summary>
+public enum HousingTier
+{
+    Basic,     // 基础（胶囊公寓）
+    Standard,  // 标准（普通公寓）
+    Luxury,    // 豪华（独栋别墅）
+    Premium    // 顶级（数据豪宅）
+}
 
     [Serializable]
     public class HousingData
