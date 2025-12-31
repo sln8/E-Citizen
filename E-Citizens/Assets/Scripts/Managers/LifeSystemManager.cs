@@ -405,6 +405,15 @@ public class LifeSystemManager : MonoBehaviour
         {
             return activeVehicle;
         }
+        
+        /// <summary>
+        /// 获取当前使用的汽车（别名方法）
+        /// </summary>
+        /// <returns>当前汽车数据</returns>
+        public VehicleData GetCurrentVehicle()
+        {
+            return GetActiveVehicle();
+        }
 
         /// <summary>
         /// 获取拥有的所有汽车

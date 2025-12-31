@@ -211,7 +211,7 @@ public class VirusInvasionManager : MonoBehaviour
         float minTime = debugMode ? 30f : minInterval;
         float maxTime = debugMode ? 60f : maxInterval;
         
-        float randomInterval = Random.Range(minTime, maxTime);
+        float randomInterval = UnityEngine.Random.Range(minTime, maxTime);
         nextInvasionTime = Time.time + randomInterval;
         
         string timeStr = debugMode ? $"{randomInterval:F0}秒" : $"{randomInterval / 60f:F1}分钟";
@@ -396,7 +396,7 @@ public class VirusInvasionManager : MonoBehaviour
         
         // 计算损失（总虚拟币的1%-5%）
         PlayerResources resources = ResourceManager.Instance.GetPlayerResources();
-        float lossPercentage = Random.Range(minLossPercentage, maxLossPercentage);
+        float lossPercentage = UnityEngine.Random.Range(minLossPercentage, maxLossPercentage);
         int coinsLost = Mathf.RoundToInt(resources.virtualCoin * lossPercentage);
         
         // 至少损失1币（如果有币），但不超过当前虚拟币
