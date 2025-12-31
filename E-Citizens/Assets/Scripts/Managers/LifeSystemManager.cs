@@ -640,5 +640,5 @@ public class LifeSystemManager : MonoBehaviour
                 GameTimerManager.Instance.OnGameTickStart -= OnGameTick;
             }
         }
-    }
+    
 }

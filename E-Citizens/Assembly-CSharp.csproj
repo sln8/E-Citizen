@@ -62,7 +62,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\UI\ResourceDisplayUI.cs" />
     <Compile Include="Assets\Scripts\Managers\SkillManager.cs" />
+    <Compile Include="Assets\Scripts\Data\HousingData.cs" />
     <Compile Include="Assets\Scripts\Managers\TalentMarketManager.cs" />
+    <Compile Include="Assets\Scripts\UI\LifeSystemTestUI.cs" />
     <Compile Include="Assets\Scripts\Data\JobData.cs" />
     <Compile Include="Assets\Scripts\Managers\CompanyManager.cs" />
     <Compile Include="Assets\Scripts\Data\UserData.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Assets\Scripts\UI\ComputingAllocationUI.cs" />
     <Compile Include="Assets\Scripts\Managers\JobManager.cs" />
     <Compile Include="Assets\Scripts\Data\ResumeData.cs" />
+    <Compile Include="Assets\Scripts\Managers\LifeSystemManager.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CompanyTestUI.cs" />
     <Compile Include="Assets\Scripts\Firebase\FirebaseInitializer.cs" />
@@ -82,9 +85,11 @@
     <Compile Include="Assets\Scripts\UI\JobSkillTestUI.cs" />
     <Compile Include="Assets\Scripts\Data\PlayerResources.cs" />
     <Compile Include="Assets\游戏设计.cs" />
+    <Compile Include="Assets\Scripts\Data\VehicleData.cs" />
     <Compile Include="Assets\Scripts\UI\WorkMarketUI.cs" />
     <Compile Include="Assets\Scripts\Data\CompanyData.cs" />
     <Compile Include="Assets\Scripts\Authentication\AuthenticationManager.cs" />
+    <Compile Include="Assets\Scripts\Data\PetData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -380,5 +380,5 @@ public class LifeSystemTestUI : MonoBehaviour
                 LifeSystemManager.Instance.OnMoodBonusApplied -= OnMoodBonusApplied;
             }
         }
-    }
+    
 }
