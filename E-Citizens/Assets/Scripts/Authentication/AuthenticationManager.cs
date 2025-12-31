@@ -184,7 +184,7 @@ public class AuthenticationManager : MonoBehaviour
         Debug.LogWarning("Apple登录仅支持iOS平台");
         CompleteLogin(false, "Apple登录仅支持iOS平台", null);
         return;
-        #endif
+        #else
         
         if (FirebaseConfig.Instance.ShouldSimulate())
         {
@@ -194,6 +194,7 @@ public class AuthenticationManager : MonoBehaviour
         {
             RealAppleLogin();
         }
+        #endif
     }
     
     /// <summary>

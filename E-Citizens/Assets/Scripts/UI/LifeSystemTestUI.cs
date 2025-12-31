@@ -329,7 +329,6 @@ public class LifeSystemTestUI : MonoBehaviour
 
             // 周期信息
             display += "【每周期收支】\n";
-            float income = 0;
             float expense = 0;
 
             // 房产租金

@@ -122,7 +122,7 @@ public class SecurityManager : MonoBehaviour
         // 订阅游戏周期事件
         if (GameTimerManager.Instance != null)
         {
-            GameTimerManager.Instance.OnGameTick += OnGameTick;
+            GameTimerManager.Instance.OnGameTickEnd += OnGameTick;
             Debug.Log("[SecurityManager] 已订阅游戏周期事件");
         }
         else
@@ -138,7 +138,7 @@ public class SecurityManager : MonoBehaviour
         // 取消订阅游戏周期事件
         if (GameTimerManager.Instance != null)
         {
-            GameTimerManager.Instance.OnGameTick -= OnGameTick;
+            GameTimerManager.Instance.OnGameTickEnd -= OnGameTick;
         }
     }
     

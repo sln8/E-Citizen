@@ -291,6 +291,17 @@ public class ResourceManager : MonoBehaviour
     {
         return TrySpendVirtualCoin(Mathf.RoundToInt(amount));
     }
+    
+    /// <summary>
+    /// 扣除虚拟币（带用途说明的版本）
+    /// </summary>
+    /// <param name="amount">要扣除的虚拟币数量</param>
+    /// <param name="purpose">用途说明</param>
+    /// <returns>如果成功扣除返回true，否则返回false</returns>
+    public bool SpendVirtualCoin(float amount, string purpose)
+    {
+        return TrySpendVirtualCoin(Mathf.RoundToInt(amount), purpose);
+    }
     #endregion
     
     #region 心情值操作
@@ -595,6 +606,22 @@ public class ResourceManager : MonoBehaviour
     {
         // 返回一个浅拷贝
         return playerResources;
+    }
+    
+    /// <summary>
+    /// 获取玩家资源对象
+    /// </summary>
+    public PlayerResources GetPlayerResources()
+    {
+        return playerResources;
+    }
+    
+    /// <summary>
+    /// 赚取虚拟币（别名方法）
+    /// </summary>
+    public void EarnVirtualCoin(int amount, string source = "")
+    {
+        AddVirtualCoin(amount, source);
     }
     
     /// <summary>
