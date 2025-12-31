@@ -127,7 +127,7 @@ public class CompanyManager : MonoBehaviour
         // 订阅游戏定时器的周期事件
         if (GameTimerManager.Instance != null)
         {
-            GameTimerManager.Instance.OnGameTick += HandleGameTick;
+            GameTimerManager.Instance.OnGameTickStart += HandleGameTick;
             Debug.Log("[CompanyManager] 已订阅游戏周期事件");
         }
         else
@@ -141,7 +141,7 @@ public class CompanyManager : MonoBehaviour
         // 取消订阅事件
         if (GameTimerManager.Instance != null)
         {
-            GameTimerManager.Instance.OnGameTick -= HandleGameTick;
+            GameTimerManager.Instance.OnGameTickStart -= HandleGameTick;
         }
     }
     
