@@ -62,13 +62,18 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\UI\ResourceDisplayUI.cs" />
     <Compile Include="Assets\Scripts\Managers\SkillManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\TalentMarketManager.cs" />
     <Compile Include="Assets\Scripts\Data\JobData.cs" />
+    <Compile Include="Assets\Scripts\Managers\CompanyManager.cs" />
     <Compile Include="Assets\Scripts\Data\UserData.cs" />
+    <Compile Include="Assets\Scripts\Data\EmployeeData.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Data\SkillData.cs" />
     <Compile Include="Assets\Scripts\UI\ComputingAllocationUI.cs" />
     <Compile Include="Assets\Scripts\Managers\JobManager.cs" />
+    <Compile Include="Assets\Scripts\Data\ResumeData.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
+    <Compile Include="Assets\Scripts\UI\CompanyTestUI.cs" />
     <Compile Include="Assets\Scripts\Firebase\FirebaseInitializer.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameTimerManager.cs" />
@@ -78,6 +83,7 @@
     <Compile Include="Assets\Scripts\Data\PlayerResources.cs" />
     <Compile Include="Assets\游戏设计.cs" />
     <Compile Include="Assets\Scripts\UI\WorkMarketUI.cs" />
+    <Compile Include="Assets\Scripts\Data\CompanyData.cs" />
     <Compile Include="Assets\Scripts\Authentication\AuthenticationManager.cs" />
   </ItemGroup>
   <ItemGroup>
