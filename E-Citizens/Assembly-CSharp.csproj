@@ -66,15 +66,18 @@
     <Compile Include="Assets\Scripts\Data\UserData.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Data\SkillData.cs" />
+    <Compile Include="Assets\Scripts\UI\ComputingAllocationUI.cs" />
     <Compile Include="Assets\Scripts\Managers\JobManager.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Firebase\FirebaseInitializer.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameTimerManager.cs" />
     <Compile Include="Assets\Scripts\Firebase\FirebaseConfig.cs" />
+    <Compile Include="Assets\Scripts\UI\SkillShopUI.cs" />
     <Compile Include="Assets\Scripts\UI\JobSkillTestUI.cs" />
     <Compile Include="Assets\Scripts\Data\PlayerResources.cs" />
     <Compile Include="Assets\游戏设计.cs" />
+    <Compile Include="Assets\Scripts\UI\WorkMarketUI.cs" />
     <Compile Include="Assets\Scripts\Authentication\AuthenticationManager.cs" />
   </ItemGroup>
   <ItemGroup>

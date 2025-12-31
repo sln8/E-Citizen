@@ -69,7 +69,7 @@ public class ComputingAllocationUI : MonoBehaviour
     {
         // 注册按钮事件
         if (resetAllButton != null)
-            resetAllButton.onClick.AddListener(ResetAllComput ing);
+            resetAllButton.onClick.AddListener(ResetAllComputing);
         
         if (applyButton != null)
             applyButton.onClick.AddListener(ApplyAllocations);
