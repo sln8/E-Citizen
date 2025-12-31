@@ -235,6 +235,14 @@ public class ResourceManager : MonoBehaviour
     }
     
     /// <summary>
+    /// 添加虚拟币（浮点数版本）
+    /// </summary>
+    public void AddVirtualCoin(float amount, string source = "")
+    {
+        AddVirtualCoin(Mathf.RoundToInt(amount), source);
+    }
+    
+    /// <summary>
     /// 尝试扣除虚拟币
     /// 购买物品、支付费用等
     /// </summary>
@@ -262,6 +270,26 @@ public class ResourceManager : MonoBehaviour
     public int GetVirtualCoin()
     {
         return playerResources.virtualCoin;
+    }
+    
+    /// <summary>
+    /// 检查是否有足够的虚拟币
+    /// </summary>
+    /// <param name="amount">需要的虚拟币数量</param>
+    /// <returns>如果足够返回true，否则返回false</returns>
+    public bool CanAfford(float amount)
+    {
+        return playerResources.virtualCoin >= amount;
+    }
+    
+    /// <summary>
+    /// 扣除虚拟币（不返回结果的版本）
+    /// </summary>
+    /// <param name="amount">要扣除的虚拟币数量</param>
+    /// <returns>如果成功扣除返回true，否则返回false</returns>
+    public bool SpendVirtualCoin(float amount)
+    {
+        return TrySpendVirtualCoin(Mathf.RoundToInt(amount));
     }
     #endregion
     
@@ -430,6 +458,14 @@ public class ResourceManager : MonoBehaviour
     public int GetLevel()
     {
         return playerResources.level;
+    }
+    
+    /// <summary>
+    /// 获取玩家等级（别名方法）
+    /// </summary>
+    public int GetPlayerLevel()
+    {
+        return GetLevel();
     }
     #endregion
     
