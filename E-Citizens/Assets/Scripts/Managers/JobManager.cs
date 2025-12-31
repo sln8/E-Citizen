@@ -544,6 +544,23 @@ public class JobManager : MonoBehaviour
         
         return Mathf.RoundToInt(finalSalary);
     }
+    
+    /// <summary>
+    /// 结算所有工作（公开方法，供GameTimerManager调用）
+    /// </summary>
+    public void SettleAllJobs()
+    {
+        PayAllSalaries();
+    }
+    
+    /// <summary>
+    /// 获取当前活跃工作的数量
+    /// </summary>
+    /// <returns>活跃工作数量</returns>
+    public int GetActiveJobsCount()
+    {
+        return activeJobs.Count;
+    }
     #endregion
     
     #region 工作槽位解锁

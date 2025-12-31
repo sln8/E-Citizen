@@ -569,7 +569,7 @@ public class CompanyManager : MonoBehaviour
         }
         
         // 产生数据
-        ResourceManager.Instance.GenerateData(company.dataGeneration);
+        ResourceManager.Instance.GenerateData();
         
         // 触发事件
         OnIncomeSettled?.Invoke(company.companyId, netProfit);
