@@ -228,7 +228,7 @@ public class LeaderboardManager : MonoBehaviour
         playerEntry.level = AuthenticationManager.Instance.currentUser.level;
         playerEntry.moodValue = ResourceManager.Instance.GetMoodValue();
         playerEntry.totalOnlineMinutes = 0; // TODO: 从GameTimerManager获取在线时长
-        playerEntry.identityType = AuthenticationManager.Instance.currentUser.identityType;
+        playerEntry.identityType = (IdentityType)AuthenticationManager.Instance.currentUser.identityType;
         playerEntry.isCurrentPlayer = true;
         
         // 更新各个排行榜
