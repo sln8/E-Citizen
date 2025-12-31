@@ -258,14 +258,17 @@ public class GameTimerManager : MonoBehaviour
     {
         Debug.Log("→ [2/9] 结算工作薪资...");
         
-        // TODO: 在实现工作系统后，这里会调用JobSystem.Instance.PaySalary()
-        // 示例代码：
-        // if (JobSystem.Instance != null)
-        // {
-        //     JobSystem.Instance.PaySalary();
-        // }
-        
-        Debug.Log("  （工作系统尚未实现）");
+        // JobManager已实现，检查是否存在并调用
+        // JobManager is implemented, check if exists and call
+        if (JobManager.Instance != null)
+        {
+            JobManager.Instance.SettleAllJobs();
+            Debug.Log($"  （工作系统已激活，当前工作数：{JobManager.Instance.GetActiveJobsCount()}）");
+        }
+        else
+        {
+            Debug.Log("  （工作系统尚未激活）");
+        }
     }
     
     /// <summary>
@@ -275,15 +278,19 @@ public class GameTimerManager : MonoBehaviour
     {
         Debug.Log("→ [3/9] 结算公司收入...");
         
-        // TODO: 在实现公司系统后，这里会调用CompanySystem
-        // 示例代码：
-        // if (CompanySystem.Instance != null)
-        // {
-        //     CompanySystem.Instance.SettleCompanyIncome();
-        //     CompanySystem.Instance.PayEmployeeSalaries();
-        // }
+        // CompanyManager已通过订阅OnGameTickStart事件自动处理
+        // 公司收入结算在CompanyManager.HandleGameTick()中执行
+        // CompanyManager automatically handles this by subscribing to OnGameTickStart
+        // Company income settlement is executed in CompanyManager.HandleGameTick()
         
-        Debug.Log("  （公司系统尚未实现）");
+        if (CompanyManager.Instance != null)
+        {
+            Debug.Log($"  （公司系统已激活，{CompanyManager.Instance.GetStatistics()}）");
+        }
+        else
+        {
+            Debug.Log("  （公司系统尚未激活）");
+        }
     }
     
     /// <summary>
