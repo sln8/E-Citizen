@@ -353,7 +353,7 @@ public class MailManager : MonoBehaviour
         
         if (mail.attachedMoodValue > 0)
         {
-            ResourceManager.Instance.AddMoodValue(mail.attachedMoodValue);
+            ResourceManager.Instance.ChangeMoodValue(mail.attachedMoodValue);
         }
         
         // TODO: 处理物品附件
