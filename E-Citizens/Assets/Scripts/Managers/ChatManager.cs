@@ -80,7 +80,7 @@ public class ChatMessageData
         this.content = content;
         this.sentTime = DateTime.Now;
         this.isRead = false;
-        this.isSentByPlayer = (senderId == UserData.Instance?.userId);
+        this.isSentByPlayer = (senderId == AuthenticationManager.Instance.currentUser?.userId);
     }
     
     /// <summary>
@@ -370,8 +370,8 @@ public class ChatManager : MonoBehaviour
         
         // 创建消息
         ChatMessageData message = new ChatMessageData(
-            UserData.Instance.userId,
-            UserData.Instance.playerName,
+            AuthenticationManager.Instance.currentUser.userId,
+            AuthenticationManager.Instance.currentUser.username,
             friendUserId,
             content
         );
@@ -408,7 +408,7 @@ public class ChatManager : MonoBehaviour
     /// <param name="message">消息数据</param>
     public void ReceiveMessage(ChatMessageData message)
     {
-        if (message.receiverUserId != UserData.Instance.userId)
+        if (message.receiverUserId != AuthenticationManager.Instance.currentUser.userId)
         {
             Debug.LogWarning("[ChatManager] 消息接收者不是当前玩家");
             return;
@@ -609,11 +609,11 @@ public class ChatManager : MonoBehaviour
     {
         // 创建测试会话
         ChatConversationData conv1 = new ChatConversationData("test_001", "虚拟人小王");
-        conv1.AddMessage(new ChatMessageData("test_001", "虚拟人小王", UserData.Instance.userId, "你好啊！"));
+        conv1.AddMessage(new ChatMessageData("test_001", "虚拟人小王", AuthenticationManager.Instance.currentUser.userId, "你好啊！"));
         conversations["test_001"] = conv1;
         
         ChatConversationData conv2 = new ChatConversationData("test_002", "数据体小李");
-        conv2.AddMessage(new ChatMessageData(UserData.Instance.userId, UserData.Instance.playerName, "test_002", "最近怎么样？"));
+        conv2.AddMessage(new ChatMessageData(AuthenticationManager.Instance.currentUser.userId, AuthenticationManager.Instance.currentUser.username, "test_002", "最近怎么样？"));
         conversations["test_002"] = conv2;
         
         Debug.Log("[ChatManager] 创建了测试会话");
@@ -643,7 +643,7 @@ public class ChatManager : MonoBehaviour
         ChatMessageData message = new ChatMessageData(
             friendUserId,
             "测试好友",
-            UserData.Instance.userId,
+            AuthenticationManager.Instance.currentUser.userId,
             testMessages[UnityEngine.Random.Range(0, testMessages.Length)]
         );
         

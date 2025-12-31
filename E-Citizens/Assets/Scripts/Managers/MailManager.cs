@@ -177,7 +177,7 @@ public class MailManager : MonoBehaviour
             "工作、创业、社交，一切皆有可能。记得管理好你的资源，保持良好的心情值！\n\n" +
             "祝你在虚拟世界中找到属于自己的意义。\n\n" +
             "——系统管理员 AI-9527",
-            UserData.Instance.userId
+            AuthenticationManager.Instance.currentUser.userId
         );
         
         welcomeMail.attachedVirtualCoin = 100; // 新手奖励
@@ -201,7 +201,7 @@ public class MailManager : MonoBehaviour
         MailData mail = MailData.CreateSystemMail(title, content, receiverId);
         
         // 如果是发给自己，直接加入收件箱
-        if (receiverId == UserData.Instance.userId)
+        if (receiverId == AuthenticationManager.Instance.currentUser.userId)
         {
             ReceiveMail(mail);
         }
@@ -224,7 +224,7 @@ public class MailManager : MonoBehaviour
     {
         MailData mail = MailData.CreateSalaryMail(companyName, amount, receiverId);
         
-        if (receiverId == UserData.Instance.userId)
+        if (receiverId == AuthenticationManager.Instance.currentUser.userId)
         {
             ReceiveMail(mail);
         }
@@ -245,7 +245,7 @@ public class MailManager : MonoBehaviour
     {
         MailData mail = MailData.CreateRewardMail(questName, coinReward, items, receiverId);
         
-        if (receiverId == UserData.Instance.userId)
+        if (receiverId == AuthenticationManager.Instance.currentUser.userId)
         {
             ReceiveMail(mail);
         }
@@ -616,14 +616,14 @@ public class MailManager : MonoBehaviour
         ReceiveMail(MailData.CreateSystemMail(
             "测试系统通知",
             "这是一条测试系统通知",
-            UserData.Instance.userId
+            AuthenticationManager.Instance.currentUser.userId
         ));
         
         // 工资邮件
         ReceiveMail(MailData.CreateSalaryMail(
             "测试公司",
             500,
-            UserData.Instance.userId
+            AuthenticationManager.Instance.currentUser.userId
         ));
         
         Debug.Log("[MailManager] 创建了测试邮件");
@@ -644,15 +644,15 @@ public class MailManager : MonoBehaviour
         switch (mailType)
         {
             case "system":
-                SendSystemMail("测试通知", "这是一条测试通知", UserData.Instance.userId);
+                SendSystemMail("测试通知", "这是一条测试通知", AuthenticationManager.Instance.currentUser.userId);
                 break;
                 
             case "salary":
-                SendSalaryMail("测试公司", UnityEngine.Random.Range(100, 1000), UserData.Instance.userId);
+                SendSalaryMail("测试公司", UnityEngine.Random.Range(100, 1000), AuthenticationManager.Instance.currentUser.userId);
                 break;
                 
             case "reward":
-                SendRewardMail("测试任务", UnityEngine.Random.Range(100, 500), "", UserData.Instance.userId);
+                SendRewardMail("测试任务", UnityEngine.Random.Range(100, 500), "", AuthenticationManager.Instance.currentUser.userId);
                 break;
                 
             default:

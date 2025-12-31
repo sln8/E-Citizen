@@ -211,7 +211,7 @@ public class LeaderboardManager : MonoBehaviour
     /// </summary>
     public void UpdatePlayerRanking()
     {
-        if (UserData.Instance == null || ResourceManager.Instance == null)
+        if (AuthenticationManager.Instance.currentUser == null || ResourceManager.Instance == null)
         {
             Debug.LogWarning("[LeaderboardManager] 用户数据或资源管理器未初始化");
             return;
@@ -219,16 +219,16 @@ public class LeaderboardManager : MonoBehaviour
         
         // 创建或更新当前玩家的条目
         LeaderboardEntryData playerEntry = new LeaderboardEntryData(
-            UserData.Instance.userId,
-            UserData.Instance.playerName,
-            UserData.Instance.level
+            AuthenticationManager.Instance.currentUser.userId,
+            AuthenticationManager.Instance.currentUser.username,
+            AuthenticationManager.Instance.currentUser.level
         );
         
         playerEntry.totalWealth = ResourceManager.Instance.GetVirtualCoin();
-        playerEntry.level = UserData.Instance.level;
+        playerEntry.level = AuthenticationManager.Instance.currentUser.level;
         playerEntry.moodValue = ResourceManager.Instance.GetMoodValue();
-        playerEntry.totalOnlineMinutes = UserData.Instance.totalOnlineTime; // 假设有这个字段
-        playerEntry.identityType = UserData.Instance.identityType;
+        playerEntry.totalOnlineMinutes = 0; // TODO: 从GameTimerManager获取在线时长
+        playerEntry.identityType = AuthenticationManager.Instance.currentUser.identityType;
         playerEntry.isCurrentPlayer = true;
         
         // 更新各个排行榜
@@ -281,7 +281,7 @@ public class LeaderboardManager : MonoBehaviour
             leaderboard[i].UpdateRank(i + 1);
             
             // 检查是否是当前玩家
-            if (leaderboard[i].userId == UserData.Instance.userId)
+            if (leaderboard[i].userId == AuthenticationManager.Instance.currentUser.userId)
             {
                 int newRank = i + 1;
                 int previousRank = playerRankings.ContainsKey(type) ? playerRankings[type] : 0;
@@ -395,7 +395,7 @@ public class LeaderboardManager : MonoBehaviour
     public LeaderboardEntryData GetPlayerEntry(LeaderboardType type)
     {
         List<LeaderboardEntryData> leaderboard = GetLeaderboardList(type);
-        return leaderboard.FirstOrDefault(e => e.userId == UserData.Instance.userId);
+        return leaderboard.FirstOrDefault(e => e.userId == AuthenticationManager.Instance.currentUser.userId);
     }
     
     /// <summary>
@@ -417,7 +417,7 @@ public class LeaderboardManager : MonoBehaviour
     public List<LeaderboardEntryData> GetPlayersAroundPlayer(LeaderboardType type, int range = 2)
     {
         List<LeaderboardEntryData> leaderboard = GetLeaderboardList(type);
-        int playerIndex = leaderboard.FindIndex(e => e.userId == UserData.Instance.userId);
+        int playerIndex = leaderboard.FindIndex(e => e.userId == AuthenticationManager.Instance.currentUser.userId);
         
         if (playerIndex < 0)
         {
@@ -477,7 +477,7 @@ public class LeaderboardManager : MonoBehaviour
                     "排行榜周奖励",
                     $"恭喜你在{GetConfig(type).displayName}中排名第{playerRank}！\n" +
                     $"获得周奖励：{rewardAmount}虚拟币",
-                    UserData.Instance.userId
+                    AuthenticationManager.Instance.currentUser.userId
                 );
                 mail.attachedVirtualCoin = rewardAmount;
                 MailManager.Instance.ReceiveMail(mail);
