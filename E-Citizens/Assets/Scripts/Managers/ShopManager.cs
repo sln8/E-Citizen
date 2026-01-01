@@ -291,7 +291,7 @@ namespace ECitizen.Managers
             }
 
             // 扣除虚拟币
-            bool deductSuccess = ResourceManager.Instance.UseVirtualCoin(item.price, $"购买{item.itemName}");
+            bool deductSuccess = ResourceManager.Instance.SpendVirtualCoin(item.price, $"购买{item.itemName}");
             if (!deductSuccess)
             {
                 Debug.LogError("扣除虚拟币失败");
@@ -461,7 +461,7 @@ namespace ECitizen.Managers
                 if (effect.Key == "storage")
                 {
                     // 负值表示减少已用存储
-                    ResourceManager.Instance.ClearUsedStorage(-effect.Value);
+                    ResourceManager.Instance.CleanData(-effect.Value);
                     Debug.Log($"清理存储空间: {-effect.Value}GB");
                 }
             }
