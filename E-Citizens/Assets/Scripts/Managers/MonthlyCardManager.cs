@@ -125,7 +125,7 @@ namespace ECitizen.Managers
             // 订阅游戏周期事件，用于检查到期
             if (GameTimerManager.Instance != null)
             {
-                GameTimerManager.Instance.OnCycleCompleted += CheckCardExpiration;
+                GameTimerManager.Instance.OnGameTickEnd += CheckCardExpiration;
             }
         }
 
@@ -134,7 +134,7 @@ namespace ECitizen.Managers
             // 取消订阅
             if (GameTimerManager.Instance != null)
             {
-                GameTimerManager.Instance.OnCycleCompleted -= CheckCardExpiration;
+                GameTimerManager.Instance.OnGameTickEnd -= CheckCardExpiration;
             }
         }
 
@@ -404,7 +404,7 @@ namespace ECitizen.Managers
         /// 检查月卡是否到期
         /// 由GameTimerManager每周期调用
         /// </summary>
-        private void CheckCardExpiration(int cycleCount)
+        private void CheckCardExpiration()
         {
             if (currentCard == null || !currentCard.isActive)
             {

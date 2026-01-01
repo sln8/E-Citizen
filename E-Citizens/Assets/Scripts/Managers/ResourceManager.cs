@@ -214,6 +214,61 @@ public class ResourceManager : MonoBehaviour
         
         return true;
     }
+    
+    /// <summary>
+    /// 升级内存
+    /// </summary>
+    /// <param name="amount">增加的内存量（GB）</param>
+    public void UpgradeMemory(float amount)
+    {
+        playerResources.memoryTotal += amount;
+        Debug.Log($"<color=green>内存升级: +{amount}GB，总内存: {playerResources.memoryTotal}GB</color>");
+        OnResourcesChanged?.Invoke(playerResources);
+    }
+    
+    /// <summary>
+    /// 升级CPU
+    /// </summary>
+    /// <param name="cores">增加的核心数</param>
+    public void UpgradeCPU(int cores)
+    {
+        playerResources.cpuTotal += cores;
+        Debug.Log($"<color=green>CPU升级: +{cores}核，总CPU: {playerResources.cpuTotal}核</color>");
+        OnResourcesChanged?.Invoke(playerResources);
+    }
+    
+    /// <summary>
+    /// 升级网速
+    /// </summary>
+    /// <param name="amount">增加的网速（Mbps）</param>
+    public void UpgradeBandwidth(float amount)
+    {
+        playerResources.bandwidthTotal += amount;
+        Debug.Log($"<color=green>网速升级: +{amount}Mbps，总网速: {playerResources.bandwidthTotal}Mbps</color>");
+        OnResourcesChanged?.Invoke(playerResources);
+    }
+    
+    /// <summary>
+    /// 升级算力
+    /// </summary>
+    /// <param name="amount">增加的算力</param>
+    public void UpgradeComputing(float amount)
+    {
+        playerResources.computingTotal += amount;
+        Debug.Log($"<color=green>算力升级: +{amount}，总算力: {playerResources.computingTotal}</color>");
+        OnResourcesChanged?.Invoke(playerResources);
+    }
+    
+    /// <summary>
+    /// 升级存储空间
+    /// </summary>
+    /// <param name="amount">增加的存储空间（GB）</param>
+    public void UpgradeStorage(float amount)
+    {
+        playerResources.storageTotal += amount;
+        Debug.Log($"<color=green>存储升级: +{amount}GB，总存储: {playerResources.storageTotal}GB</color>");
+        OnResourcesChanged?.Invoke(playerResources);
+    }
     #endregion
     
     #region 虚拟币操作
