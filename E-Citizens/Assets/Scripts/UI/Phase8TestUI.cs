@@ -484,7 +484,7 @@ namespace ECitizen.UI
                 {
                     firstCharge.MarkAsPurchased();
                     AddLog($"✓ 首充礼包购买成功！交易ID: {txId}");
-                    AddLog("请点击"领取首充奖励"按钮领取");
+                    AddLog("请点击\"领取首充奖励\"按钮领取");
                 }
                 else
                 {
