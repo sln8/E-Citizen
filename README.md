@@ -16,15 +16,20 @@
 
 ### 🚀 快速开始（必读）
 - 📘 [QUICKSTART.md](QUICKSTART.md) - 5分钟快速体验指南
-- 📗 [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - **常用操作速查表（新）**
+- 📗 [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - **常用操作速查表**
 - 📙 [SETUP_GUIDE.md](SETUP_GUIDE.md) - Unity和Firebase详细配置步骤
+- 🎯 [Unity正式UI制作完整指南.md](Unity正式UI制作完整指南.md) - **阶段1-8完整UI制作步骤（新增）**
 
 ### 📖 开发指南（按阶段阅读）
 - 📕 [PHASE1_README.md](PHASE1_README.md) - Phase 1：登录系统开发指南
 - 📗 [PHASE2_SETUP_GUIDE.md](PHASE2_SETUP_GUIDE.md) - Phase 2：资源系统操作指南
 - 📘 [PHASE3_SETUP_GUIDE.md](PHASE3_SETUP_GUIDE.md) - Phase 3：工作技能系统指南
-- 📙 [PHASE3_UI_GUIDE.md](PHASE3_UI_GUIDE.md) - **Phase 3：UI界面创建指南（新）**
-- 📄 [PHASE3_LATEST_UPDATE.md](PHASE3_LATEST_UPDATE.md) - **Phase 3最新更新（新）**
+- 📙 [PHASE3_UI_GUIDE.md](PHASE3_UI_GUIDE.md) - Phase 3：UI界面创建指南
+- 📄 [PHASE3_LATEST_UPDATE.md](PHASE3_LATEST_UPDATE.md) - Phase 3最新更新
+- 📘 [PHASE5_SETUP_GUIDE.md](PHASE5_SETUP_GUIDE.md) - Phase 5：生活系统操作指南
+- 📗 [PHASE6_SETUP_GUIDE.md](PHASE6_SETUP_GUIDE.md) - Phase 6：娱乐与病毒入侵指南
+- 📙 [PHASE7_SETUP_GUIDE.md](PHASE7_SETUP_GUIDE.md) - Phase 7：社交系统操作指南
+- 📕 [PHASE8_SETUP_GUIDE.md](PHASE8_SETUP_GUIDE.md) - Phase 8：商城与支付系统指南
 
 ### 🎮 核心文档
 - 📕 [游戏设计.cs](E-Citizens/Assets/游戏设计.cs) - 完整的游戏设计文档（中文）
