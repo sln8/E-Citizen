@@ -500,9 +500,8 @@ public class AuthenticationManager : MonoBehaviour
             return false;
         }
         
-        // 获取实例并检查是否就绪
-        var firebaseInit = FirebaseInitializer.Instance;
-        if (firebaseInit == null || !firebaseInit.IsFirebaseReady())
+        // HasInstance返回true，所以Instance必定不为null
+        if (!FirebaseInitializer.Instance.IsFirebaseReady())
         {
             Debug.LogWarning("Firebase尚未初始化完成");
             CompleteLogin(false, "系统初始化中，请稍候", null);
