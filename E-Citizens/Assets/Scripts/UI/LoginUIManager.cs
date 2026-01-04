@@ -239,9 +239,13 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void UnregisterAuthenticationEvents()
     {
-        // 不再检查Instance，因为调用者已经使用HasInstance检查
-        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
-        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
+        // 安全地取消事件订阅
+        var instance = AuthenticationManager.Instance;
+        if (instance != null)
+        {
+            instance.OnLoginSuccess -= OnLoginSuccess;
+            instance.OnLoginFailed -= OnLoginFailed;
+        }
     }
     #endregion
 

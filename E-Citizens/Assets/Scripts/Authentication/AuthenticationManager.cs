@@ -493,7 +493,16 @@ public class AuthenticationManager : MonoBehaviour
     private bool CanStartLogin(string loginMethod)
     {
         // 检查Firebase是否就绪 - 使用HasInstance避免创建新实例
-        if (!FirebaseInitializer.HasInstance() || !FirebaseInitializer.Instance.IsFirebaseReady())
+        if (!FirebaseInitializer.HasInstance())
+        {
+            Debug.LogWarning("Firebase尚未初始化完成");
+            CompleteLogin(false, "系统初始化中，请稍候", null);
+            return false;
+        }
+        
+        // 获取实例并检查是否就绪
+        var firebaseInit = FirebaseInitializer.Instance;
+        if (firebaseInit == null || !firebaseInit.IsFirebaseReady())
         {
             Debug.LogWarning("Firebase尚未初始化完成");
             CompleteLogin(false, "系统初始化中，请稍候", null);
