@@ -35,6 +35,14 @@ public class FirebaseConfig : MonoBehaviour
             return _instance;
         }
     }
+    
+    /// <summary>
+    /// 检查实例是否存在，不会创建新实例
+    /// </summary>
+    public static bool HasInstance()
+    {
+        return _instance != null;
+    }
     #endregion
 
     #region Firebase配置参数
@@ -102,6 +110,15 @@ public class FirebaseConfig : MonoBehaviour
         
         // 输出配置信息到控制台
         LogConfig();
+    }
+    
+    private void OnDestroy()
+    {
+        // 清理单例引用
+        if (_instance == this)
+        {
+            _instance = null;
+        }
     }
     #endregion
 

@@ -31,6 +31,14 @@ public class AuthenticationManager : MonoBehaviour
             return _instance;
         }
     }
+    
+    /// <summary>
+    /// 检查实例是否存在，不会创建新实例
+    /// </summary>
+    public static bool HasInstance()
+    {
+        return _instance != null;
+    }
     #endregion
 
     #region 事件定义
@@ -75,15 +83,24 @@ public class AuthenticationManager : MonoBehaviour
     private void Start()
     {
         // 监听Firebase初始化完成事件
-        FirebaseInitializer.Instance.OnFirebaseInitialized += OnFirebaseReady;
+        if (FirebaseInitializer.HasInstance())
+        {
+            FirebaseInitializer.Instance.OnFirebaseInitialized += OnFirebaseReady;
+        }
     }
 
     private void OnDestroy()
     {
-        // 取消事件监听
-        if (FirebaseInitializer.Instance != null)
+        // 取消事件监听 - 使用HasInstance避免创建新实例
+        if (FirebaseInitializer.HasInstance())
         {
             FirebaseInitializer.Instance.OnFirebaseInitialized -= OnFirebaseReady;
+        }
+        
+        // 清理单例引用
+        if (_instance == this)
+        {
+            _instance = null;
         }
     }
     #endregion
@@ -475,8 +492,8 @@ public class AuthenticationManager : MonoBehaviour
     /// </summary>
     private bool CanStartLogin(string loginMethod)
     {
-        // 检查Firebase是否就绪
-        if (!FirebaseInitializer.Instance.IsFirebaseReady())
+        // 检查Firebase是否就绪 - 使用HasInstance避免创建新实例
+        if (!FirebaseInitializer.HasInstance() || !FirebaseInitializer.Instance.IsFirebaseReady())
         {
             Debug.LogWarning("Firebase尚未初始化完成");
             CompleteLogin(false, "系统初始化中，请稍候", null);

@@ -57,8 +57,11 @@ public class LoginUIManager : MonoBehaviour
         // 注册按钮点击事件
         RegisterButtonEvents();
         
-        // 注册认证管理器事件
-        RegisterAuthenticationEvents();
+        // 注册认证管理器事件 - 使用HasInstance避免创建新实例
+        if (AuthenticationManager.HasInstance())
+        {
+            RegisterAuthenticationEvents();
+        }
         
         // 显示测试模式提示
         ShowTestModeWarning();
@@ -69,8 +72,11 @@ public class LoginUIManager : MonoBehaviour
         // 取消按钮事件
         UnregisterButtonEvents();
         
-        // 取消认证管理器事件
-        UnregisterAuthenticationEvents();
+        // 取消认证管理器事件 - 使用HasInstance避免创建新实例
+        if (AuthenticationManager.HasInstance())
+        {
+            UnregisterAuthenticationEvents();
+        }
     }
     #endregion
 
@@ -233,11 +239,9 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void UnregisterAuthenticationEvents()
     {
-        if (AuthenticationManager.Instance != null)
-        {
-            AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
-            AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
-        }
+        // 不再检查Instance，因为调用者已经使用HasInstance检查
+        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
+        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
     }
     #endregion
 

@@ -28,6 +28,14 @@ public class FirebaseInitializer : MonoBehaviour
             return _instance;
         }
     }
+    
+    /// <summary>
+    /// 检查实例是否存在，不会创建新实例
+    /// </summary>
+    public static bool HasInstance()
+    {
+        return _instance != null;
+    }
     #endregion
 
     #region 事件定义
@@ -63,6 +71,15 @@ public class FirebaseInitializer : MonoBehaviour
         
         _instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+    
+    private void OnDestroy()
+    {
+        // 清理单例引用
+        if (_instance == this)
+        {
+            _instance = null;
+        }
     }
 
     private void Start()
