@@ -134,15 +134,36 @@ public class InitialSelectionManager : MonoBehaviour
     {
         Debug.Log($"<color=green>玩家完成初始选择：{selectedIdentity}</color>");
         
-        // 通知GameManager完成角色创建
-        if (GameManager.Instance != null)
+        // 保存用户选择到用户数据
+        if (AuthenticationManager.Instance != null && AuthenticationManager.Instance.currentUser != null)
         {
-            GameManager.Instance.CompleteCharacterCreation(selectedIdentity);
+            UserData currentUser = AuthenticationManager.Instance.currentUser;
+            currentUser.hasCreatedCharacter = true;
+            currentUser.identityType = (int)selectedIdentity;
+            
+            // 保存到本地PlayerPrefs
+            PlayerPrefs.SetInt("HasCreatedCharacter", 1);
+            PlayerPrefs.SetInt("IdentityType", (int)selectedIdentity);
+            PlayerPrefs.SetString("SavedUserId", currentUser.userId);
+            PlayerPrefs.Save();
+            
+            Debug.Log("✓ 用户初始选择已保存");
+        }
+        
+        // 初始化资源管理器的玩家身份
+        if (ResourceManager.Instance != null)
+        {
+            ResourceManager.Instance.SetPlayerIdentity(selectedIdentity);
+            Debug.Log($"✓ 资源管理器已设置玩家身份: {selectedIdentity}");
         }
         else
         {
-            Debug.LogError("GameManager未找到！无法完成角色创建流程。");
+            Debug.LogWarning("ResourceManager未找到，将在进入GameScene后初始化");
         }
+        
+        // 跳转到游戏场景
+        Debug.Log("跳转到游戏场景...");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }
     #endregion
 }
