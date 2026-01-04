@@ -297,27 +297,33 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void OnTestAccountLoginClicked()
     {
-        Debug.Log("用户点击了测试账号登录按钮");
+        Debug.Log("[LoginUI] ========== 测试账号登录按钮被点击 ==========");
         
         // 获取输入的账号和密码
         string username = testUsernameInput != null ? testUsernameInput.text : "";
         string password = testPasswordInput != null ? testPasswordInput.text : "";
         
+        Debug.Log($"[LoginUI] 输入的用户名: '{username}', 密码长度: {password.Length}");
+        
         // 验证输入
         if (string.IsNullOrEmpty(username))
         {
             UpdateStatus("请输入测试账号");
+            Debug.LogWarning("[LoginUI] 验证失败: 用户名为空");
             return;
         }
         
         if (string.IsNullOrEmpty(password))
         {
             UpdateStatus("请输入密码");
+            Debug.LogWarning("[LoginUI] 验证失败: 密码为空");
             return;
         }
         
         UpdateStatus("正在使用测试账号登录...");
         ShowLoading(true);
+        
+        Debug.Log($"[LoginUI] ✓ 输入验证通过，调用 AuthenticationManager.SignInWithTestAccount()");
         
         // 调用认证管理器的测试账号登录方法
         AuthenticationManager.Instance.SignInWithTestAccount(username, password);
@@ -343,7 +349,12 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void OnLoginSuccess(UserData userData)
     {
-        Debug.Log($"<color=green>登录成功！欢迎 {userData.username}</color>");
+        Debug.Log($"<color=green>[LoginUI] 登录成功回调被触发！欢迎 {userData.username}</color>");
+        Debug.Log($"[LoginUI] 用户数据检查:");
+        Debug.Log($"[LoginUI] - userId: {userData.userId}");
+        Debug.Log($"[LoginUI] - username: {userData.username}");
+        Debug.Log($"[LoginUI] - hasCreatedCharacter: {userData.hasCreatedCharacter}");
+        Debug.Log($"[LoginUI] - identityType: {userData.identityType}");
         
         ShowLoading(false);
         UpdateStatus($"登录成功！欢迎 {userData.username}");
@@ -352,14 +363,30 @@ public class LoginUIManager : MonoBehaviour
         if (!userData.hasCreatedCharacter)
         {
             // 首次登录，跳转到初始选择场景
-            Debug.Log("检测到首次登录，跳转到初始选择场景");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SelectScene");
+            Debug.Log("<color=cyan>[LoginUI] ➤➤➤ 检测到首次登录，准备跳转到 SelectScene</color>");
+            try
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("SelectScene");
+                Debug.Log("<color=cyan>[LoginUI] ✓ LoadScene('SelectScene') 调用成功</color>");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"<color=red>[LoginUI] ✗ 加载SelectScene失败: {e.Message}</color>");
+            }
         }
         else
         {
             // 已完成初始选择，直接跳转到游戏场景
-            Debug.Log("欢迎回来！跳转到游戏场景");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+            Debug.Log("<color=yellow>[LoginUI] ➤➤➤ 欢迎回来！准备跳转到 GameScene</color>");
+            try
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+                Debug.Log("<color=yellow>[LoginUI] ✓ LoadScene('GameScene') 调用成功</color>");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"<color=red>[LoginUI] ✗ 加载GameScene失败: {e.Message}</color>");
+            }
         }
     }
     

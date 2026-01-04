@@ -224,12 +224,13 @@ public class AuthenticationManager : MonoBehaviour
     {
         if (!CanStartLogin("测试账号")) return;
         
-        Debug.Log($"=== 开始测试账号登录流程 === 账号: {username}");
+        Debug.Log($"[AuthManager] ========== 开始测试账号登录流程 ========== 账号: {username}");
         _isLoggingIn = true;
         loginStatus = "正在使用测试账号登录...";
         
         if (!FirebaseConfig.Instance.enableTestAccounts)
         {
+            Debug.LogWarning("[AuthManager] 测试账号功能未启用");
             CompleteLogin(false, "测试账号登录未启用", null);
             return;
         }
@@ -237,16 +238,21 @@ public class AuthenticationManager : MonoBehaviour
         // 验证输入
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
+            Debug.LogWarning("[AuthManager] 账号或密码为空");
             CompleteLogin(false, "账号或密码不能为空", null);
             return;
         }
         
+        Debug.Log($"[AuthManager] 配置检查: isTestMode={FirebaseConfig.Instance.isTestMode}, ShouldSimulate={FirebaseConfig.Instance.ShouldSimulate()}");
+        
         if (FirebaseConfig.Instance.ShouldSimulate() || FirebaseConfig.Instance.isTestMode)
         {
+            Debug.Log("[AuthManager] 使用模拟登录模式");
             SimulateTestAccountLogin(username, password);
         }
         else
         {
+            Debug.Log("[AuthManager] 使用真实登录模式");
             RealTestAccountLogin(username, password);
         }
     }
@@ -348,11 +354,12 @@ public class AuthenticationManager : MonoBehaviour
     /// </summary>
     private void SimulateTestAccountLogin(string username, string password)
     {
-        Debug.Log($"模拟测试账号登录: {username}");
+        Debug.Log($"[AuthManager] 模拟测试账号登录: {username}");
         
         // 简单的密码验证（实际项目中应该更安全）
         if (password.Length < 6)
         {
+            Debug.LogWarning($"[AuthManager] 密码验证失败，长度: {password.Length}");
             CompleteLogin(false, "密码至少需要6个字符", null);
             return;
         }
@@ -367,8 +374,13 @@ public class AuthenticationManager : MonoBehaviour
             lastLoginAt = DateTime.Now.ToString()
         };
         
+        Debug.Log($"[AuthManager] 创建用户数据 - userId: {simulatedUser.userId}");
+        Debug.Log($"[AuthManager] hasCreatedCharacter (初始): {simulatedUser.hasCreatedCharacter}");
+        
         // 加载用户的游戏数据
         LoadUserGameData(simulatedUser);
+        
+        Debug.Log($"[AuthManager] hasCreatedCharacter (加载后): {simulatedUser.hasCreatedCharacter}");
         
         CompleteLogin(true, "测试账号登录成功（模拟）", simulatedUser);
     }
@@ -533,22 +545,27 @@ public class AuthenticationManager : MonoBehaviour
         _isLoggingIn = false;
         loginStatus = message;
         
+        Debug.Log($"[AuthManager] CompleteLogin 被调用 - success: {success}, message: {message}");
+        
         if (success && userData != null)
         {
             // 登录成功
             isLoggedIn = true;
             currentUser = userData;
             
-            Debug.Log($"<color=green>登录成功: {message}</color>");
-            Debug.Log($"用户ID: {userData.userId}");
-            Debug.Log($"用户名: {userData.username}");
-            Debug.Log($"登录方式: {userData.loginProvider}");
+            Debug.Log($"<color=green>[AuthManager] ✓ 登录成功: {message}</color>");
+            Debug.Log($"[AuthManager] 用户ID: {userData.userId}");
+            Debug.Log($"[AuthManager] 用户名: {userData.username}");
+            Debug.Log($"[AuthManager] 登录方式: {userData.loginProvider}");
+            Debug.Log($"[AuthManager] hasCreatedCharacter: {userData.hasCreatedCharacter}");
             
             // 保存登录信息到本地（用于自动登录）
             SaveLoginInfo(userData);
             
             // 触发登录成功事件
+            Debug.Log($"[AuthManager] 准备触发 OnLoginSuccess 事件，订阅者数量: {OnLoginSuccess?.GetInvocationList()?.Length ?? 0}");
             OnLoginSuccess?.Invoke(userData);
+            Debug.Log($"[AuthManager] OnLoginSuccess 事件已触发");
         }
         else
         {
@@ -556,7 +573,7 @@ public class AuthenticationManager : MonoBehaviour
             isLoggedIn = false;
             currentUser = null;
             
-            Debug.LogError($"<color=red>登录失败: {message}</color>");
+            Debug.LogError($"<color=red>[AuthManager] ✗ 登录失败: {message}</color>");
             
             // 触发登录失败事件
             OnLoginFailed?.Invoke(message);
@@ -654,6 +671,8 @@ public class AuthenticationManager : MonoBehaviour
         // 尝试从PlayerPrefs加载用户数据
         string savedUserId = PlayerPrefs.GetString("SavedUserId", "");
         
+        Debug.Log($"[AuthManager] LoadUserGameData - 当前userId: {userData.userId}, 保存的userId: {savedUserId}");
+        
         // 如果保存的用户ID与当前用户ID匹配，加载游戏数据
         if (savedUserId == userData.userId)
         {
@@ -664,14 +683,15 @@ public class AuthenticationManager : MonoBehaviour
             userData.virtualCoin = PlayerPrefs.GetInt("VirtualCoin", 100);
             userData.moodValue = PlayerPrefs.GetInt("MoodValue", 10);
             
-            Debug.Log($"成功加载用户数据: hasCreatedCharacter={userData.hasCreatedCharacter}, identityType={userData.identityType}");
+            Debug.Log($"[AuthManager] ✓ 成功加载用户数据: hasCreatedCharacter={userData.hasCreatedCharacter}, identityType={userData.identityType}");
         }
         else
         {
             // 新用户或不同的用户ID，使用默认值
-            Debug.Log("未找到保存的用户数据，使用默认值");
+            Debug.Log($"[AuthManager] ⚠ 未找到保存的用户数据，使用默认值");
             userData.hasCreatedCharacter = false;
             userData.identityType = 0;
+            Debug.Log($"[AuthManager] 设置 hasCreatedCharacter = {userData.hasCreatedCharacter}");
         }
     }
     #endregion
