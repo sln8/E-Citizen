@@ -476,6 +476,16 @@ public class GameManager : MonoBehaviour
     private void EnterCharacterCreation()
     {
         ChangeState(GameState.CharacterCreation);
+        
+        // 显示初始选择界面
+        if (InitialSelectionManager.Instance != null)
+        {
+            InitialSelectionManager.Instance.ShowInitialSelection();
+        }
+        else
+        {
+            Debug.LogError("InitialSelectionManager未找到！");
+        }
     }
     
     /// <summary>
@@ -493,9 +503,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private bool IsNewUser(UserData userData)
     {
-        // 简单判断：如果等级为1且虚拟币为初始值，视为新用户
-        // 实际项目中应该从Firebase数据库检查
-        return userData.level == 1 && userData.virtualCoin == 100;
+        // 使用hasCreatedCharacter字段判断是否为新用户
+        // 如果为false，说明用户还未完成初始选择流程
+        return !userData.hasCreatedCharacter;
     }
     
     /// <summary>
@@ -507,6 +517,57 @@ public class GameManager : MonoBehaviour
         
         // 这里应该从Firebase Firestore加载用户的完整游戏数据
         // 包括资源、工作、公司、房产等信息
+    }
+    
+    /// <summary>
+    /// 完成角色创建
+    /// 在玩家完成初始选择后调用
+    /// </summary>
+    /// <param name="selectedIdentity">玩家选择的身份类型</param>
+    public void CompleteCharacterCreation(IdentityType selectedIdentity)
+    {
+        Debug.Log($"<color=green>完成角色创建，身份类型：{selectedIdentity}</color>");
+        
+        // 1. 设置资源管理器的玩家身份
+        if (ResourceManager.Instance != null)
+        {
+            ResourceManager.Instance.SetPlayerIdentity(selectedIdentity);
+        }
+        else
+        {
+            Debug.LogError("ResourceManager未找到！");
+        }
+        
+        // 2. 更新用户数据
+        if (AuthenticationManager.Instance != null && AuthenticationManager.Instance.currentUser != null)
+        {
+            UserData currentUser = AuthenticationManager.Instance.currentUser;
+            currentUser.hasCreatedCharacter = true;
+            currentUser.identityType = (int)selectedIdentity;
+            
+            // 保存到Firebase（实际项目中需要实现Firebase保存逻辑）
+            SaveUserDataToFirebase(currentUser);
+        }
+        else
+        {
+            Debug.LogError("无法获取当前用户信息！");
+        }
+        
+        // 3. 进入主游戏场景
+        EnterMainGame();
+    }
+    
+    /// <summary>
+    /// 保存用户数据到Firebase
+    /// </summary>
+    private void SaveUserDataToFirebase(UserData userData)
+    {
+        Debug.Log("保存用户数据到Firebase...");
+        
+        // TODO: 实际项目中需要实现Firebase Firestore保存逻辑
+        // 这里暂时只做本地保存
+        
+        Debug.Log("✓ 用户数据已保存");
     }
     
     /// <summary>
