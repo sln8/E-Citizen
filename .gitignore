@@ -79,7 +79,8 @@ ExportedObj/
 *.bundle
 *.bundle.meta
 *.13.6.0.meta
-
+*.asset
+*.asset.meta
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
