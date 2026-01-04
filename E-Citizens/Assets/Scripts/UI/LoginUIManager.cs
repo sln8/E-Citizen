@@ -58,7 +58,15 @@ public class LoginUIManager : MonoBehaviour
         RegisterButtonEvents();
         
         // 注册认证管理器事件
-        RegisterAuthenticationEvents();
+        // 在Start时AuthenticationManager应该已经存在，但为安全起见检查
+        if (AuthenticationManager.HasInstance())
+        {
+            RegisterAuthenticationEvents();
+        }
+        else
+        {
+            Debug.LogWarning("AuthenticationManager not initialized yet");
+        }
         
         // 显示测试模式提示
         ShowTestModeWarning();
@@ -70,7 +78,11 @@ public class LoginUIManager : MonoBehaviour
         UnregisterButtonEvents();
         
         // 取消认证管理器事件
-        UnregisterAuthenticationEvents();
+        // 只有在实例存在时才取消订阅，避免在OnDestroy时创建新实例
+        if (AuthenticationManager.HasInstance())
+        {
+            UnregisterAuthenticationEvents();
+        }
     }
     #endregion
 
@@ -224,6 +236,7 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void RegisterAuthenticationEvents()
     {
+        // HasInstance在调用前已检查，这里安全访问
         AuthenticationManager.Instance.OnLoginSuccess += OnLoginSuccess;
         AuthenticationManager.Instance.OnLoginFailed += OnLoginFailed;
     }
@@ -233,11 +246,9 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void UnregisterAuthenticationEvents()
     {
-        if (AuthenticationManager.Instance != null)
-        {
-            AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
-            AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
-        }
+        // HasInstance在调用前已检查，这里安全访问
+        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
+        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
     }
     #endregion
 
