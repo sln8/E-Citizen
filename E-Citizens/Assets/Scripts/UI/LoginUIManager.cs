@@ -51,6 +51,8 @@ public class LoginUIManager : MonoBehaviour
     #region Unity生命周期方法
     private void Start()
     {
+        Debug.Log("[LoginUI] Start() 被调用");
+        
         // 初始化UI
         InitializeUI();
         
@@ -58,14 +60,15 @@ public class LoginUIManager : MonoBehaviour
         RegisterButtonEvents();
         
         // 注册认证管理器事件
-        // 在Start时AuthenticationManager应该已经存在，但为安全起见检查
-        if (AuthenticationManager.HasInstance())
+        // 直接访问Instance以确保它被创建
+        if (AuthenticationManager.Instance != null)
         {
             RegisterAuthenticationEvents();
+            Debug.Log("[LoginUI] ✓ 已注册认证管理器事件");
         }
         else
         {
-            Debug.LogWarning("AuthenticationManager not initialized yet");
+            Debug.LogError("[LoginUI] ✗ AuthenticationManager 初始化失败");
         }
         
         // 显示测试模式提示
@@ -74,6 +77,8 @@ public class LoginUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        Debug.Log("[LoginUI] OnDestroy() 被调用");
+        
         // 取消按钮事件
         UnregisterButtonEvents();
         
@@ -82,6 +87,7 @@ public class LoginUIManager : MonoBehaviour
         if (AuthenticationManager.HasInstance())
         {
             UnregisterAuthenticationEvents();
+            Debug.Log("[LoginUI] ✓ 已取消注册认证管理器事件");
         }
     }
     #endregion
@@ -236,9 +242,29 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void RegisterAuthenticationEvents()
     {
-        // HasInstance在调用前已检查，这里安全访问
+        Debug.Log("[LoginUI] RegisterAuthenticationEvents() 被调用");
+        
+        // 确保AuthenticationManager.Instance不为null
+        if (AuthenticationManager.Instance == null)
+        {
+            Debug.LogError("[LoginUI] AuthenticationManager.Instance 为 null，无法注册事件");
+            return;
+        }
+        
+        // 先清除可能存在的旧订阅，避免重复订阅
+        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
+        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
+        
+        // 重新订阅
         AuthenticationManager.Instance.OnLoginSuccess += OnLoginSuccess;
         AuthenticationManager.Instance.OnLoginFailed += OnLoginFailed;
+        
+        Debug.Log("[LoginUI] ✓ 事件订阅完成");
+        
+        #if UNITY_EDITOR || DEVELOPMENT_BUILD
+        // 仅在编辑器或开发构建中显示订阅者数量，避免生产环境性能影响
+        Debug.Log($"[LoginUI] OnLoginSuccess 订阅者数量: {AuthenticationManager.Instance.OnLoginSuccess?.GetInvocationList()?.Length ?? 0}");
+        #endif
     }
     
     /// <summary>
@@ -246,9 +272,15 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void UnregisterAuthenticationEvents()
     {
-        // HasInstance在调用前已检查，这里安全访问
-        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
-        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
+        Debug.Log("[LoginUI] UnregisterAuthenticationEvents() 被调用");
+        
+        // 使用HasInstance检查后安全访问Instance
+        if (AuthenticationManager.Instance != null)
+        {
+            AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
+            AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
+            Debug.Log("[LoginUI] ✓ 事件取消订阅完成");
+        }
     }
     #endregion
 
@@ -297,27 +329,33 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void OnTestAccountLoginClicked()
     {
-        Debug.Log("用户点击了测试账号登录按钮");
+        Debug.Log("[LoginUI] ========== 测试账号登录按钮被点击 ==========");
         
         // 获取输入的账号和密码
         string username = testUsernameInput != null ? testUsernameInput.text : "";
         string password = testPasswordInput != null ? testPasswordInput.text : "";
         
+        Debug.Log($"[LoginUI] 输入的用户名: '{username}', 密码长度: {password.Length}");
+        
         // 验证输入
         if (string.IsNullOrEmpty(username))
         {
             UpdateStatus("请输入测试账号");
+            Debug.LogWarning("[LoginUI] 验证失败: 用户名为空");
             return;
         }
         
         if (string.IsNullOrEmpty(password))
         {
             UpdateStatus("请输入密码");
+            Debug.LogWarning("[LoginUI] 验证失败: 密码为空");
             return;
         }
         
         UpdateStatus("正在使用测试账号登录...");
         ShowLoading(true);
+        
+        Debug.Log($"[LoginUI] ✓ 输入验证通过，调用 AuthenticationManager.SignInWithTestAccount()");
         
         // 调用认证管理器的测试账号登录方法
         AuthenticationManager.Instance.SignInWithTestAccount(username, password);
@@ -343,7 +381,12 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void OnLoginSuccess(UserData userData)
     {
-        Debug.Log($"<color=green>登录成功！欢迎 {userData.username}</color>");
+        Debug.Log($"<color=green>[LoginUI] 登录成功回调被触发！欢迎 {userData.username}</color>");
+        Debug.Log($"[LoginUI] 用户数据检查:");
+        Debug.Log($"[LoginUI] - userId: {userData.userId}");
+        Debug.Log($"[LoginUI] - username: {userData.username}");
+        Debug.Log($"[LoginUI] - hasCreatedCharacter: {userData.hasCreatedCharacter}");
+        Debug.Log($"[LoginUI] - identityType: {userData.identityType}");
         
         ShowLoading(false);
         UpdateStatus($"登录成功！欢迎 {userData.username}");
@@ -352,14 +395,30 @@ public class LoginUIManager : MonoBehaviour
         if (!userData.hasCreatedCharacter)
         {
             // 首次登录，跳转到初始选择场景
-            Debug.Log("检测到首次登录，跳转到初始选择场景");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SelectScene");
+            Debug.Log("<color=cyan>[LoginUI] ➤➤➤ 检测到首次登录，准备跳转到 SelectScene</color>");
+            try
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("SelectScene");
+                Debug.Log("<color=cyan>[LoginUI] ✓ LoadScene('SelectScene') 调用成功</color>");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"<color=red>[LoginUI] ✗ 加载SelectScene失败: {e.Message}</color>");
+            }
         }
         else
         {
             // 已完成初始选择，直接跳转到游戏场景
-            Debug.Log("欢迎回来！跳转到游戏场景");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+            Debug.Log("<color=yellow>[LoginUI] ➤➤➤ 欢迎回来！准备跳转到 GameScene</color>");
+            try
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+                Debug.Log("<color=yellow>[LoginUI] ✓ LoadScene('GameScene') 调用成功</color>");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"<color=red>[LoginUI] ✗ 加载GameScene失败: {e.Message}</color>");
+            }
         }
     }
     
