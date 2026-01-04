@@ -51,6 +51,8 @@ public class LoginUIManager : MonoBehaviour
     #region Unity生命周期方法
     private void Start()
     {
+        Debug.Log("[LoginUI] Start() 被调用");
+        
         // 初始化UI
         InitializeUI();
         
@@ -58,14 +60,18 @@ public class LoginUIManager : MonoBehaviour
         RegisterButtonEvents();
         
         // 注册认证管理器事件
-        // 在Start时AuthenticationManager应该已经存在，但为安全起见检查
-        if (AuthenticationManager.HasInstance())
+        // 确保AuthenticationManager存在，访问Instance会自动创建
+        Debug.Log($"[LoginUI] 检查 AuthenticationManager 是否存在: {AuthenticationManager.HasInstance()}");
+        
+        // 直接访问Instance以确保它被创建
+        if (AuthenticationManager.Instance != null)
         {
             RegisterAuthenticationEvents();
+            Debug.Log("[LoginUI] ✓ 已注册认证管理器事件");
         }
         else
         {
-            Debug.LogWarning("AuthenticationManager not initialized yet");
+            Debug.LogError("[LoginUI] ✗ AuthenticationManager 初始化失败");
         }
         
         // 显示测试模式提示
@@ -74,6 +80,8 @@ public class LoginUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        Debug.Log("[LoginUI] OnDestroy() 被调用");
+        
         // 取消按钮事件
         UnregisterButtonEvents();
         
@@ -82,6 +90,7 @@ public class LoginUIManager : MonoBehaviour
         if (AuthenticationManager.HasInstance())
         {
             UnregisterAuthenticationEvents();
+            Debug.Log("[LoginUI] ✓ 已取消注册认证管理器事件");
         }
     }
     #endregion
@@ -236,9 +245,25 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void RegisterAuthenticationEvents()
     {
-        // HasInstance在调用前已检查，这里安全访问
+        Debug.Log("[LoginUI] RegisterAuthenticationEvents() 被调用");
+        
+        // 确保AuthenticationManager.Instance不为null
+        if (AuthenticationManager.Instance == null)
+        {
+            Debug.LogError("[LoginUI] AuthenticationManager.Instance 为 null，无法注册事件");
+            return;
+        }
+        
+        // 先清除可能存在的旧订阅，避免重复订阅
+        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
+        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
+        
+        // 重新订阅
         AuthenticationManager.Instance.OnLoginSuccess += OnLoginSuccess;
         AuthenticationManager.Instance.OnLoginFailed += OnLoginFailed;
+        
+        Debug.Log("[LoginUI] ✓ 事件订阅完成");
+        Debug.Log($"[LoginUI] OnLoginSuccess 订阅者数量: {AuthenticationManager.Instance.OnLoginSuccess?.GetInvocationList()?.Length ?? 0}");
     }
     
     /// <summary>
@@ -246,9 +271,15 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void UnregisterAuthenticationEvents()
     {
+        Debug.Log("[LoginUI] UnregisterAuthenticationEvents() 被调用");
+        
         // HasInstance在调用前已检查，这里安全访问
-        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
-        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
+        if (AuthenticationManager.Instance != null)
+        {
+            AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
+            AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
+            Debug.Log("[LoginUI] ✓ 事件取消订阅完成");
+        }
     }
     #endregion
 
