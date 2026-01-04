@@ -562,8 +562,12 @@ public class AuthenticationManager : MonoBehaviour
             // 保存登录信息到本地（用于自动登录）
             SaveLoginInfo(userData);
             
-            // 触发登录成功事件
+            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            // 仅在编辑器或开发构建中显示订阅者数量，避免生产环境性能影响
             Debug.Log($"[AuthManager] 准备触发 OnLoginSuccess 事件，订阅者数量: {OnLoginSuccess?.GetInvocationList()?.Length ?? 0}");
+            #endif
+            
+            // 触发登录成功事件
             OnLoginSuccess?.Invoke(userData);
             Debug.Log($"[AuthManager] OnLoginSuccess 事件已触发");
         }

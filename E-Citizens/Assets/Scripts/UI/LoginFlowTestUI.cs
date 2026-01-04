@@ -21,8 +21,9 @@ public class LoginFlowTestUI : MonoBehaviour
     [Tooltip("测试账号前缀")]
     public string testAccountPrefix = "testuser";
     
-    [Tooltip("测试密码")]
-    public string testPassword = "test123456";
+    [Tooltip("测试密码 - 仅用于开发测试，不应在生产环境中使用")]
+    [SerializeField]
+    private string testPassword = "test123456";
     #endregion
     
     #region Unity生命周期

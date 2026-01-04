@@ -60,9 +60,6 @@ public class LoginUIManager : MonoBehaviour
         RegisterButtonEvents();
         
         // 注册认证管理器事件
-        // 确保AuthenticationManager存在，访问Instance会自动创建
-        Debug.Log($"[LoginUI] 检查 AuthenticationManager 是否存在: {AuthenticationManager.HasInstance()}");
-        
         // 直接访问Instance以确保它被创建
         if (AuthenticationManager.Instance != null)
         {
@@ -263,7 +260,11 @@ public class LoginUIManager : MonoBehaviour
         AuthenticationManager.Instance.OnLoginFailed += OnLoginFailed;
         
         Debug.Log("[LoginUI] ✓ 事件订阅完成");
+        
+        #if UNITY_EDITOR || DEVELOPMENT_BUILD
+        // 仅在编辑器或开发构建中显示订阅者数量，避免生产环境性能影响
         Debug.Log($"[LoginUI] OnLoginSuccess 订阅者数量: {AuthenticationManager.Instance.OnLoginSuccess?.GetInvocationList()?.Length ?? 0}");
+        #endif
     }
     
     /// <summary>
@@ -273,7 +274,7 @@ public class LoginUIManager : MonoBehaviour
     {
         Debug.Log("[LoginUI] UnregisterAuthenticationEvents() 被调用");
         
-        // HasInstance在调用前已检查，这里安全访问
+        // 使用HasInstance检查后安全访问Instance
         if (AuthenticationManager.Instance != null)
         {
             AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
