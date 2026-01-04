@@ -565,9 +565,20 @@ public class GameManager : MonoBehaviour
         Debug.Log("保存用户数据到Firebase...");
         
         // TODO: 实际项目中需要实现Firebase Firestore保存逻辑
-        // 这里暂时只做本地保存
+        // 当前版本使用本地PlayerPrefs作为临时存储
         
-        Debug.Log("✓ 用户数据已保存");
+        // 临时方案：保存到本地PlayerPrefs
+        PlayerPrefs.SetInt("HasCreatedCharacter", userData.hasCreatedCharacter ? 1 : 0);
+        PlayerPrefs.SetInt("IdentityType", userData.identityType);
+        PlayerPrefs.SetInt("Level", userData.level);
+        PlayerPrefs.SetInt("VirtualCoin", userData.virtualCoin);
+        PlayerPrefs.SetInt("MoodValue", userData.moodValue);
+        PlayerPrefs.SetString("Username", userData.username);
+        PlayerPrefs.SetString("UserId", userData.userId);
+        PlayerPrefs.Save();
+        
+        Debug.Log("✓ 用户数据已保存到本地PlayerPrefs（临时方案）");
+        Debug.LogWarning("注意：生产环境需要实现Firebase Firestore保存逻辑");
     }
     
     /// <summary>

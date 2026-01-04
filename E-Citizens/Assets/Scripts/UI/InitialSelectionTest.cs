@@ -89,7 +89,7 @@ public class InitialSelectionTest : MonoBehaviour
         // 1. 创建新用户数据
         UserData newUser = new UserData
         {
-            userId = "test_user_" + System.Guid.NewGuid().ToString().Substring(0, 8),
+            userId = "test_user_" + Random.Range(10000000, 99999999).ToString(),
             username = "测试用户",
             hasCreatedCharacter = false
         };

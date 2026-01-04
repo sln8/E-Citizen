@@ -74,6 +74,15 @@ public class InitialSelectionUI : MonoBehaviour
     private bool hasSelected = false;
     #endregion
     
+    #region 配置常量
+    [Header("视觉配置")]
+    [Tooltip("选中按钮的高亮颜色")]
+    public Color highlightColor = new Color(0.3f, 0.8f, 1f, 1f);
+    
+    [Tooltip("未选中按钮的默认颜色")]
+    public Color normalColor = Color.white;
+    #endregion
+    
     #region 事件定义
     /// <summary>
     /// 选择完成事件
@@ -350,18 +359,38 @@ public class InitialSelectionUI : MonoBehaviour
             if (selectedIdentity == IdentityType.ConsciousnessLinker)
             {
                 // 高亮意识连接者按钮
-                consciousnessColors.normalColor = new Color(0.3f, 0.8f, 1f, 1f);
-                fullVirtualColors.normalColor = Color.white;
+                consciousnessColors.normalColor = highlightColor;
+                fullVirtualColors.normalColor = normalColor;
             }
             else
             {
                 // 高亮完全虚拟人按钮
-                fullVirtualColors.normalColor = new Color(0.3f, 0.8f, 1f, 1f);
-                consciousnessColors.normalColor = Color.white;
+                fullVirtualColors.normalColor = highlightColor;
+                consciousnessColors.normalColor = normalColor;
             }
             
             consciousnessLinkerButton.colors = consciousnessColors;
             fullVirtualButton.colors = fullVirtualColors;
+        }
+    }
+    
+    /// <summary>
+    /// 重置按钮颜色
+    /// </summary>
+    private void ResetButtonColors()
+    {
+        if (consciousnessLinkerButton != null)
+        {
+            ColorBlock colors = consciousnessLinkerButton.colors;
+            colors.normalColor = normalColor;
+            consciousnessLinkerButton.colors = colors;
+        }
+        
+        if (fullVirtualButton != null)
+        {
+            ColorBlock colors = fullVirtualButton.colors;
+            colors.normalColor = normalColor;
+            fullVirtualButton.colors = colors;
         }
     }
     #endregion
@@ -376,6 +405,7 @@ public class InitialSelectionUI : MonoBehaviour
         {
             selectionPanel.SetActive(true);
             hasSelected = false;
+            selectedIdentity = IdentityType.ConsciousnessLinker; // 重置为默认值
             
             if (confirmButton != null)
             {
@@ -392,6 +422,9 @@ public class InitialSelectionUI : MonoBehaviour
             {
                 fullVirtualInfoPanel.SetActive(false);
             }
+            
+            // 重置按钮颜色
+            ResetButtonColors();
         }
     }
     
