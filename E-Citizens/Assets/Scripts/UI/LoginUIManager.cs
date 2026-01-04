@@ -63,6 +63,10 @@ public class LoginUIManager : MonoBehaviour
         {
             RegisterAuthenticationEvents();
         }
+        else
+        {
+            Debug.LogWarning("AuthenticationManager not initialized yet");
+        }
         
         // 显示测试模式提示
         ShowTestModeWarning();
@@ -232,9 +236,9 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void RegisterAuthenticationEvents()
     {
-        var instance = AuthenticationManager.Instance;
-        instance.OnLoginSuccess += OnLoginSuccess;
-        instance.OnLoginFailed += OnLoginFailed;
+        // HasInstance在调用前已检查，这里安全访问
+        AuthenticationManager.Instance.OnLoginSuccess += OnLoginSuccess;
+        AuthenticationManager.Instance.OnLoginFailed += OnLoginFailed;
     }
     
     /// <summary>
@@ -242,11 +246,9 @@ public class LoginUIManager : MonoBehaviour
     /// </summary>
     private void UnregisterAuthenticationEvents()
     {
-        // 由于调用者已经检查了HasInstance()，这里可以安全访问Instance
-        // 但为了防止在事件处理过程中实例被销毁，仍然做null检查
-        var instance = AuthenticationManager.Instance;
-        instance.OnLoginSuccess -= OnLoginSuccess;
-        instance.OnLoginFailed -= OnLoginFailed;
+        // HasInstance在调用前已检查，这里安全访问
+        AuthenticationManager.Instance.OnLoginSuccess -= OnLoginSuccess;
+        AuthenticationManager.Instance.OnLoginFailed -= OnLoginFailed;
     }
     #endregion
 
