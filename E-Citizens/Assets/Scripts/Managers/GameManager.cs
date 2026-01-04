@@ -88,10 +88,10 @@ public class GameManager : MonoBehaviour
     public string loginSceneName = "LoginScene";
     
     [Tooltip("角色创建场景名称")]
-    public string characterCreationSceneName = "CharacterCreationScene";
+    public string characterCreationSceneName = "SelectScene";
     
     [Tooltip("主游戏场景名称")]
-    public string mainGameSceneName = "MainGameScene";
+    public string mainGameSceneName = "GameScene";
     
     [Header("调试配置")]
     [Tooltip("是否跳过登录（仅开发调试使用）")]
@@ -480,7 +480,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"加载角色创建场景: {characterCreationSceneName}");
         
         // 这里应该使用实际的场景加载逻辑
-        // SceneManager.LoadScene(characterCreationSceneName);
+        //SceneManager.LoadScene(characterCreationSceneName);
         
         ChangeState(GameState.CharacterCreation);
     }
