@@ -120,6 +120,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         Debug.Log("=== 游戏管理器已创建 ===");
+        
+        // 监听场景加载事件
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
@@ -162,6 +165,32 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("游戏返回前台");
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        // 取消场景加载事件监听
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    /// <summary>
+    /// 场景加载完成回调
+    /// </summary>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"场景加载完成: {scene.name}");
+        
+        // 如果加载的是游戏场景，且用户已登录
+        if (scene.name == "GameScene" && AuthenticationManager.Instance != null && AuthenticationManager.Instance.IsLoggedIn())
+        {
+            UserData currentUser = AuthenticationManager.Instance.GetCurrentUser();
+            if (currentUser != null && currentUser.hasCreatedCharacter)
+            {
+                // 加载用户数据和属性
+                Debug.Log("进入游戏场景，加载用户属性...");
+                LoadUserData(currentUser);
+            }
         }
     }
     #endregion
@@ -515,8 +544,24 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"加载用户数据: {userData.userId}");
         
-        // 这里应该从Firebase Firestore加载用户的完整游戏数据
+        // 加载用户的身份类型和资源配置
+        IdentityType userIdentity = (IdentityType)userData.identityType;
+        Debug.Log($"用户身份类型: {userIdentity}");
+        
+        // 设置资源管理器的玩家身份
+        if (ResourceManager.Instance != null)
+        {
+            ResourceManager.Instance.SetPlayerIdentity(userIdentity);
+            Debug.Log("✓ 资源管理器已加载用户身份配置");
+        }
+        else
+        {
+            Debug.LogWarning("ResourceManager未找到，资源配置将在稍后加载");
+        }
+        
+        // TODO: 从Firebase Firestore加载用户的完整游戏数据
         // 包括资源、工作、公司、房产等信息
+        Debug.Log("用户数据加载完成");
     }
     
     /// <summary>

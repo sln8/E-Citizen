@@ -337,8 +337,19 @@ public class LoginUIManager : MonoBehaviour
         ShowLoading(false);
         UpdateStatus($"登录成功！欢迎 {userData.username}");
         
-        // 可以在这里添加场景切换等逻辑
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        // 检查用户是否已完成初始选择
+        if (!userData.hasCreatedCharacter)
+        {
+            // 首次登录，跳转到初始选择场景
+            Debug.Log("检测到首次登录，跳转到初始选择场景");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SelectScene");
+        }
+        else
+        {
+            // 已完成初始选择，直接跳转到游戏场景
+            Debug.Log("欢迎回来！跳转到游戏场景");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        }
     }
     
     /// <summary>

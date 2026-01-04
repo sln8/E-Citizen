@@ -274,6 +274,9 @@ public class AuthenticationManager : MonoBehaviour
             lastLoginAt = DateTime.Now.ToString()
         };
         
+        // 加载用户的游戏数据
+        LoadUserGameData(simulatedUser);
+        
         CompleteLogin(true, "Google登录成功（模拟）", simulatedUser);
     }
     
@@ -294,6 +297,9 @@ public class AuthenticationManager : MonoBehaviour
             lastLoginAt = DateTime.Now.ToString()
         };
         
+        // 加载用户的游戏数据
+        LoadUserGameData(simulatedUser);
+        
         CompleteLogin(true, "Facebook登录成功（模拟）", simulatedUser);
     }
     
@@ -313,6 +319,9 @@ public class AuthenticationManager : MonoBehaviour
             createdAt = DateTime.Now.ToString(),
             lastLoginAt = DateTime.Now.ToString()
         };
+        
+        // 加载用户的游戏数据
+        LoadUserGameData(simulatedUser);
         
         CompleteLogin(true, "Apple登录成功（模拟）", simulatedUser);
     }
@@ -340,6 +349,9 @@ public class AuthenticationManager : MonoBehaviour
             createdAt = DateTime.Now.ToString(),
             lastLoginAt = DateTime.Now.ToString()
         };
+        
+        // 加载用户的游戏数据
+        LoadUserGameData(simulatedUser);
         
         CompleteLogin(true, "测试账号登录成功（模拟）", simulatedUser);
     }
@@ -606,6 +618,36 @@ public class AuthenticationManager : MonoBehaviour
     public UserData GetCurrentUser()
     {
         return currentUser;
+    }
+    
+    /// <summary>
+    /// 加载用户游戏数据
+    /// 从本地PlayerPrefs加载用户的游戏进度数据
+    /// </summary>
+    private void LoadUserGameData(UserData userData)
+    {
+        // 尝试从PlayerPrefs加载用户数据
+        string savedUserId = PlayerPrefs.GetString("SavedUserId", "");
+        
+        // 如果保存的用户ID与当前用户ID匹配，加载游戏数据
+        if (savedUserId == userData.userId)
+        {
+            // 加载角色创建状态
+            userData.hasCreatedCharacter = PlayerPrefs.GetInt("HasCreatedCharacter", 0) == 1;
+            userData.identityType = PlayerPrefs.GetInt("IdentityType", 0);
+            userData.level = PlayerPrefs.GetInt("Level", 1);
+            userData.virtualCoin = PlayerPrefs.GetInt("VirtualCoin", 100);
+            userData.moodValue = PlayerPrefs.GetInt("MoodValue", 10);
+            
+            Debug.Log($"成功加载用户数据: hasCreatedCharacter={userData.hasCreatedCharacter}, identityType={userData.identityType}");
+        }
+        else
+        {
+            // 新用户或不同的用户ID，使用默认值
+            Debug.Log("未找到保存的用户数据，使用默认值");
+            userData.hasCreatedCharacter = false;
+            userData.identityType = 0;
+        }
     }
     #endregion
 }
