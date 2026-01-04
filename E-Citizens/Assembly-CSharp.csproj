@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\UI\ResourceDisplayUI.cs" />
     <Compile Include="Assets\Scripts\Managers\SkillManager.cs" />
     <Compile Include="Assets\Scripts\Data\HousingData.cs" />
+    <Compile Include="Assets\Scripts\Managers\ShopManager.cs" />
     <Compile Include="Assets\Scripts\Managers\TalentMarketManager.cs" />
     <Compile Include="Assets\Scripts\UI\LifeSystemTestUI.cs" />
     <Compile Include="Assets\Scripts\Data\FriendData.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Assets\Scripts\Data\EmployeeData.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Data\SkillData.cs" />
+    <Compile Include="Assets\Scripts\Data\FirstChargeData.cs" />
     <Compile Include="Assets\Scripts\UI\ComputingAllocationUI.cs" />
     <Compile Include="Assets\Scripts\Managers\SecurityManager.cs" />
     <Compile Include="Assets\Scripts\UI\EntertainmentTestUI.cs" />
@@ -85,14 +87,18 @@
     <Compile Include="Assets\Scripts\Data\SecurityPlanData.cs" />
     <Compile Include="Assets\Scripts\UI\CompanyTestUI.cs" />
     <Compile Include="Assets\Scripts\Managers\FriendManager.cs" />
+    <Compile Include="Assets\Scripts\Data\MonthlyCardData.cs" />
+    <Compile Include="Assets\Scripts\UI\Phase8TestUI.cs" />
     <Compile Include="Assets\Scripts\Firebase\FirebaseInitializer.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameTimerManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\MonthlyCardManager.cs" />
     <Compile Include="Assets\Scripts\Data\EntertainmentData.cs" />
     <Compile Include="Assets\Scripts\Data\VirusData.cs" />
     <Compile Include="Assets\Scripts\Firebase\FirebaseConfig.cs" />
     <Compile Include="Assets\Scripts\Data\GiftData.cs" />
     <Compile Include="Assets\Scripts\UI\SkillShopUI.cs" />
+    <Compile Include="Assets\Scripts\Managers\PaymentManager.cs" />
     <Compile Include="Assets\Scripts\UI\JobSkillTestUI.cs" />
     <Compile Include="Assets\Scripts\Managers\ChatManager.cs" />
     <Compile Include="Assets\Scripts\Data\PlayerResources.cs" />
@@ -102,6 +108,7 @@
     <Compile Include="Assets\Scripts\Managers\VirusInvasionManager.cs" />
     <Compile Include="Assets\Scripts\Managers\LeaderboardManager.cs" />
     <Compile Include="Assets\Scripts\Data\VehicleData.cs" />
+    <Compile Include="Assets\Scripts\Data\ShopItemData.cs" />
     <Compile Include="Assets\Scripts\UI\WorkMarketUI.cs" />
     <Compile Include="Assets\Scripts\Managers\MailManager.cs" />
     <Compile Include="Assets\Scripts\Data\CompanyData.cs" />

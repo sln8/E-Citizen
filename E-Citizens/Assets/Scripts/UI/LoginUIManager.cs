@@ -338,7 +338,7 @@ public class LoginUIManager : MonoBehaviour
         UpdateStatus($"登录成功！欢迎 {userData.username}");
         
         // 可以在这里添加场景切换等逻辑
-        // 例如：UnityEngine.SceneManagement.SceneManager.LoadScene("MainGame");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }
     
     /// <summary>
