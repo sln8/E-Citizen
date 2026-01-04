@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\UI\Phase7TestUI.cs" />
+    <Compile Include="Assets\Scripts\Managers\InitialSelectionManager.cs" />
     <Compile Include="Assets\Scripts\UI\ResourceDisplayUI.cs" />
     <Compile Include="Assets\Scripts\Managers\SkillManager.cs" />
     <Compile Include="Assets\Scripts\Data\HousingData.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Assets\Scripts\UI\LifeSystemTestUI.cs" />
     <Compile Include="Assets\Scripts\Data\FriendData.cs" />
     <Compile Include="Assets\Scripts\Data\JobData.cs" />
+    <Compile Include="Assets\Scripts\UI\InitialSelectionUI.cs" />
     <Compile Include="Assets\Scripts\Managers\CompanyManager.cs" />
     <Compile Include="Assets\Scripts\Data\UserData.cs" />
     <Compile Include="Assets\Scripts\Data\EmployeeData.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Assets\Scripts\Managers\LifeSystemManager.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Data\MailData.cs" />
+    <Compile Include="Assets\Scripts\UI\InitialSelectionTest.cs" />
     <Compile Include="Assets\Scripts\Data\SecurityPlanData.cs" />
     <Compile Include="Assets\Scripts\UI\CompanyTestUI.cs" />
     <Compile Include="Assets\Scripts\Managers\FriendManager.cs" />
